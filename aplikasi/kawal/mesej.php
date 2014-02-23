@@ -8,7 +8,7 @@ class Mesej extends Kawal
         parent::__construct();
         Kebenaran::kawalKeluar();
         
-        $this->lihat->js = array(
+        $this->papar->js = array(
             //'bootstrap.js',
             'bootstrap-transition.js',
             'bootstrap-alert.js',
@@ -26,7 +26,7 @@ class Mesej extends Kawal
             'bootstrap-datepicker.js',
             'bootstrap-datepicker.ms.js',
             'bootstrap-editable.min.js');
-        $this->lihat->css = array(
+        $this->papar->css = array(
             'bootstrap-datepicker.css',
             'bootstrap-editable.css');
 			
@@ -39,23 +39,23 @@ class Mesej extends Kawal
     public function index() 
     {    
 		// tarik data dari jadual nama_pegawai
-		$this->lihat->senaraiPegawai['biodata'] = $this->tanya->cariMedan('nama_pegawai', 
+		$this->papar->senaraiPegawai['biodata'] = $this->tanya->cariMedan('nama_pegawai', 
 			'namaPegawai,Nama_Penuh,email,nohp,unit', 
 			array('medan'=>'unit', 'id'=>'ekonomi'));
 	
 		//
-		$this->lihat->ralat = null;
+		$this->papar->ralat = null;
 		
-		$this->lihat->pegawai = senarai_kakitangan();
-        $this->lihat->baca($this->_folder . '/index', 0);
+		$this->papar->pegawai = senarai_kakitangan();
+        $this->papar->baca($this->_folder . '/index', 0);
     }   
 	
 	 public function utama() 
     {    
-		$this->lihat->ralat = null;
+		$this->papar->ralat = null;
 		
-		$this->lihat->pegawai = senarai_kakitangan();
-        $this->lihat->baca($this->_folder . '/utama', 0);
+		$this->papar->pegawai = senarai_kakitangan();
+        $this->papar->baca($this->_folder . '/utama', 0);
     }   
 
     
@@ -66,8 +66,8 @@ class Mesej extends Kawal
 		$dataID = bersih($_POST['cari']);
 		
 		// Set pemboleubah utama
-        $this->lihat->pegawai = senarai_kakitangan();
-        $this->lihat->lokasi = 'MDT 2012 - Ubah';
+        $this->papar->pegawai = senarai_kakitangan();
+        $this->papar->lokasi = 'MDT 2012 - Ubah';
 		
 		// paparkan ke fail kawalan/ubah.php
 		header('location: ' . URL . 'kawalan/ubah/' . $dataID);
@@ -114,7 +114,7 @@ class Mesej extends Kawal
             $this->tanya->ubahSimpan($data, $myTable);
         }// tamat ulang table
         
-        //$this->lihat->baca('kawalan/ubah/' . $dataID);
+        //$this->papar->baca('kawalan/ubah/' . $dataID);
         header('location: ' . URL . 'kawalan/ubah/' . $dataID);
         
     }
