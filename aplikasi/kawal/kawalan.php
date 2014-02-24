@@ -38,7 +38,7 @@ class Kawalan extends Kawal
 			. 'email,nota,msic08';
 			//. 'newss,msic,nama,utama,fe,terima,'
 			//. 'hasil,dptLain,web,stok,staf,gaji,outlet,sebab';
-		$this->medanData = 'b.newss,b.msic,b.nama,b.utama,b.fe,terima,'
+		$this->medanData = 'newss,msic,nama,utama,fe,terima,'
 			. ' format( (hasil + IFNULL(dptLain,0) ), 0 ) as dapat,'
 			//. '(hasil+COALESCE(dptLain,0)) as dapat2,'
 			. 'format(hasil,0) as hasil,format(dptlain,0) as dptlain,' . "\r"
@@ -54,7 +54,7 @@ class Kawalan extends Kawal
     public function index($item = 30, $ms = 1, $fe = null) 
     {    
 		$fe = ($this->level == 'kawal') ? $fe : $this->pengguna; # set nama fe
-        $bulanan = bulanan('kawalan','13'); # papar bulan dlm tahun semasa     
+        $bulanan = bulanan('kawalan','14'); # papar bulan dlm tahun semasa     
         // setkan pembolehubah untuk $this->tanya
             $medanRangka = $this->medanRangka;
 			$medanData = $this->medanData;
@@ -64,7 +64,7 @@ class Kawalan extends Kawal
         foreach ($bulanan as $key => $myTable)
         {// mula ulang table
 			// setkan $medan
-			$medan = ($myTable=='rangka13') ? $medanRangka : $medanData;
+			$medan = ($myTable=='rangka14') ? $medanRangka : $medanData;
             // dapatkan bilangan jumlah rekod
             $bilSemua = $this->tanya->kiraKes($sv, $myTable, $medan, $fe);
             // tentukan bilangan mukasurat 
@@ -102,13 +102,13 @@ class Kawalan extends Kawal
             $sv = $this->sv;
 			
         // mula papar semua dalam $myTable
-        $bulanan = bulanan('kawalan','13'); # papar bulan dlm tahun semasa
+        $bulanan = bulanan('kawalan','14'); # papar bulan dlm tahun semasa
         # semak pembolehubah $bulanan
         //echo '<pre>', print_r($bulanan, 1) . '</pre><br>';
         foreach ($bulanan as $key => $myTable)
         {// mula ulang table
 			// setkan $medan
-			$medan = ($myTable=='rangka13') ? $medanRangka : $medanData;
+			$medan = ($myTable=='rangka14') ? $medanRangka : $medanData;
             // dapatkan bilangan jumlah rekod
             $bilSemua = $this->tanya->kiraKes($sv, $myTable, $medan, $fe);
             // tentukan bilangan mukasurat 
@@ -150,7 +150,7 @@ class Kawalan extends Kawal
          * $fe = null // set $fe = pegawai kerja luar tiada
          */
 		$fe = ($this->level == 'kawal') ? $fe : $this->pengguna; # set nama fe
-        $bulanan = bulanan('kawalan','13'); # papar bulan dlm tahun semasa
+        $bulanan = bulanan('kawalan','14'); # papar bulan dlm tahun semasa
         # semak pembolehubah $bulanan
         //echo '<pre>', print_r($bulanan, 1) . '</pre><br>';
 
@@ -163,7 +163,7 @@ class Kawalan extends Kawal
         foreach ($bulanan as $key => $myTable)
         {# mula ulang table
 			# setkan $medan
-			$medan = ($myTable=='rangka13') ? $medanRangka : $medanData;
+			$medan = ($myTable=='rangka14') ? $medanRangka : $medanData;
             # dapatkan bilangan jumlah rekod
             $bilSemua = $this->tanya->kiraKes($sv, $myTable, $medan, $fe);
             # bilangan jumlah rekod
@@ -187,7 +187,7 @@ class Kawalan extends Kawal
         $this->papar->url = dpt_url();
 		
         // pergi papar kandungan
-     	// memilih antara papar dan cetak
+		// memilih antara papar dan cetak
 		if ($cetak == 'cetak') //echo 'cetak';
 			$this->papar->baca('kawalan/cetak', 0);
 		elseif ($cetak == 'papar') //echo 'papar';
@@ -205,7 +205,7 @@ class Kawalan extends Kawal
          * $fe = null // set $fe = pegawai kerja luar tiada
          */
 		$fe = ($this->level == 'kawal') ? $fe : $this->pengguna; # set nama fe
-        $bulanan = bulanan('kawalan','13'); # papar bulan dlm tahun semasa
+        $bulanan = bulanan('kawalan','14'); # papar bulan dlm tahun semasa
         # semak pembolehubah $bulanan
         //echo '<pre>', print_r($bulanan, 1) . '</pre><br>';
 
@@ -218,7 +218,7 @@ class Kawalan extends Kawal
         foreach ($bulanan as $key => $myTable)
         {// mula ulang table
 			// setkan $medan
-			$medan = ($myTable=='rangka13') ? $medanRangka : $medanData;
+			$medan = ($myTable=='rangka14') ? $medanRangka : $medanData;
             // dapatkan bilangan jumlah rekod
             $bilSemua = $this->tanya->kiraKes($sv, $myTable, $medan, $fe);
             // tentukan bilangan mukasurat 
@@ -252,7 +252,7 @@ class Kawalan extends Kawal
          * $fe = null // set $fe = pegawai kerja luar tiada
          */
 		$fe = ($this->level == 'kawal') ? $fe : $this->pengguna; # set nama fe
-        $bulanan = bulanan('kawalan','13'); # papar bulan dlm tahun semasa
+        $bulanan = bulanan('kawalan','14'); # papar bulan dlm tahun semasa
         # semak pembolehubah $bulanan
         //echo '<pre>', print_r($bulanan, 1) . '</pre><br>';
 
@@ -265,7 +265,7 @@ class Kawalan extends Kawal
         foreach ($bulanan as $key => $myTable)
         {// mula ulang table
 			// setkan $medan
-			$medan = ($myTable=='rangka13') ? $medanRangka : $medanData;
+			$medan = ($myTable=='rangka14') ? $medanRangka : $medanData;
             // dapatkan bilangan jumlah rekod
             $bilSemua = $this->tanya->kiraKes($sv, $myTable, $medan, $fe);
             // tentukan bilangan mukasurat 
@@ -299,7 +299,7 @@ class Kawalan extends Kawal
          * $fe = null // set $fe = pegawai kerja luar tiada
          */
 		$fe = ($this->level == 'kawal') ? $fe : $this->pengguna; # set nama fe
-        $bulanan = bulanan('kawalan','13'); # papar bulan dlm tahun semasa
+        $bulanan = bulanan('kawalan','14'); # papar bulan dlm tahun semasa
         # semak pembolehubah $bulanan
         //echo '<pre>', print_r($bulanan, 1) . '</pre><br>';
 
@@ -312,7 +312,7 @@ class Kawalan extends Kawal
         foreach ($bulanan as $key => $myTable)
         {// mula ulang table
 			// setkan $medan
-			$medan = ($myTable=='rangka13') ? $medanRangka : $medanData;
+			$medan = ($myTable=='rangka14') ? $medanRangka : $medanData;
             // dapatkan bilangan jumlah rekod
             $bilSemua = $this->tanya->kiraKes($sv, $myTable, $medan, $fe);
             // tentukan bilangan mukasurat 
@@ -372,7 +372,7 @@ class Kawalan extends Kawal
         foreach ($bulanan as $key => $myTable)
         {// mula ulang table
 			// setkan $medan
-			$medan = ($myTable=='rangka13') ? $medanRangka : $medanData;
+			$medan = ($myTable=='rangka14') ? $medanRangka : $medanData;
             // dapatkan bilangan jumlah rekod
             $bilSemua = $this->tanya->kiraKesUtama($sv.$myTable, $medan, $cari);
             // tentukan bilangan mukasurat 
@@ -458,7 +458,7 @@ class Kawalan extends Kawal
 		//echo '<pre>';  print_r($paparCantum) . '</pre>';
 
 		// set pembolehubah
-        $jadualRangka = 'rangka13';
+        $jadualRangka = 'rangka14';
         $medanRangka ='newss,nama,ssm,utama,' .
 			'concat_ws("<br>",alamat1,alamat2,poskod,ngdbbp) as alamat,' . "\r" .
 			'nota,respon,fe,tel,fax,responden,email,msic,msic08,' .
@@ -668,8 +668,8 @@ class Kawalan extends Kawal
     {//echo '<br>Anda berada di class Imej extends Kawal:ubah($cari)<br>';
                 
         // senaraikan tatasusunan jadual dan setkan pembolehubah
-        $bulanan = bulanan('data_bulanan','13'); # papar bulan dlm tahun semasa
-        $jadualRangka = 'rangka13';
+        $bulanan = bulanan('data_bulanan','14'); # papar bulan dlm tahun semasa
+        $jadualRangka = 'rangka14';
         $medanRangka ='newss,nama,ssm,utama,' .
 			'concat_ws("<br>",alamat1,alamat2,poskod,ngdbbp) as alamat,' . "\r" .
 			'nota,respon,fe,tel,fax,responden,email,msic,msic08,' .
@@ -816,7 +816,7 @@ class Kawalan extends Kawal
 
     public function ubahSimpan($dataID)
     {
-        $bulanan = bulanan('kawalan','13'); # papar bulan dlm tahun semasa
+        $bulanan = bulanan('kawalan','14'); # papar bulan dlm tahun semasa
         $posmen = array();
         $id = 'newss';
 		$sv = 'mdt_'; // sv = kod penyiasatan
@@ -848,10 +848,10 @@ class Kawalan extends Kawal
         }
         
 			# buat peristiharan
-			$rangka = 'mdt_rangka13'; // rangka kawalan kes
+			$rangka = 'mdt_rangka14'; // rangka kawalan kes
 			//echo '<br>$dataID=' . $dataID . '<br>';
 			//echo '<pre>$_POST='; print_r($_POST) . '</pre>';
-			//echo '<pre>$posmen='; print_r($posmen) . '</pre>';
+			echo '<pre>$posmen='; print_r($posmen) . '</pre>';
         
         // mula ulang $bulanan
         
@@ -872,7 +872,7 @@ class Kawalan extends Kawal
 	{				
         // senaraikan tatasusunan jadual dan setkan pembolehubah
         $bulanan = bulanan('data_bulanan','13'); # papar bulan dlm tahun semasa
-        $jadualRangka = 'rangka13';
+        $jadualRangka = 'rangka14';
         $medanRangka ='newss,nama,ssm,utama,' .
 			'nota,respon,fe,tel,fax,responden,email,msic,msic08,' .
             'concat(substring(newss,1,3),\' \',substring(newss,4,3),\' \',' .
