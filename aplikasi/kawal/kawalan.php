@@ -851,7 +851,7 @@ class Kawalan extends Kawal
 			$rangka = 'mdt_rangka14'; // rangka kawalan kes
 			//echo '<br>$dataID=' . $dataID . '<br>';
 			//echo '<pre>$_POST='; print_r($_POST) . '</pre>';
-			echo '<pre>$posmen='; print_r($posmen) . '</pre>';
+			//echo '<pre>$posmen='; print_r($posmen) . '</pre>';
         
         // mula ulang $bulanan
         
