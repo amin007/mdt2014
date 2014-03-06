@@ -62,13 +62,13 @@ class Sbu extends Kawal
 			$medanData = $this->medanData;
 			$sv = $this->sv;
         // mula papar semua dalam $myTable
-        $bulanan = bulanan('kawalan','13'); # papar bulan dlm tahun semasa
+        $bulanan = bulanan('kawalan','14'); # papar bulan dlm tahun semasa
         # semak pembolehubah $bulanan
         //echo '<pre>', print_r($bulanan, 1) . '</pre><br>';
         foreach ($bulanan as $key => $myTable)
         {// mula ulang table
 			// setkan $medan
-			$medan = ($myTable=='rangka13') ? $medanRangka : $medanData;
+			$medan = ($myTable=='rangka14') ? $medanRangka : $medanData;
             // dapatkan bilangan jumlah rekod
             $bilSemua = $this->tanya->kiraKes($sv, $myTable, $medan, $fe);
             // tentukan bilangan mukasurat 
@@ -107,13 +107,13 @@ class Sbu extends Kawal
 			$medanData = $this->medanData;
 			$sv = $this->sv;
         // mula papar semua dalam $myTable
-        $bulanan = bulanan('kawalan','13'); # papar bulan dlm tahun semasa
+        $bulanan = bulanan('kawalan','14'); # papar bulan dlm tahun semasa
         # semak pembolehubah $bulanan
         //echo '<pre>', print_r($bulanan, 1) . '</pre><br>';
         foreach ($bulanan as $key => $myTable)
         {// mula ulang table
 			// setkan $medan
-			$medan = ($myTable=='rangka13') ? $medanRangka : $medanData;
+			$medan = ($myTable=='rangka14') ? $medanRangka : $medanData;
             // dapatkan bilangan jumlah rekod
             $bilSemua = $this->tanya->kiraKes($sv, $myTable, $medan, $fe);
             // tentukan bilangan mukasurat 
@@ -152,13 +152,13 @@ class Sbu extends Kawal
 			$medanData = $this->medanData;
 			$sv = $this->sv;
         // mula papar semua dalam $myTable
-        $bulanan = bulanan('kawalan','13'); # papar bulan dlm tahun semasa
+        $bulanan = bulanan('kawalan','14'); # papar bulan dlm tahun semasa
         # semak pembolehubah $bulanan
         //echo '<pre>', print_r($bulanan, 1) . '</pre><br>';
         foreach ($bulanan as $key => $myTable)
         {// mula ulang table
 			// setkan $medan
-			$medan = ($myTable=='rangka13') ? $medanRangka : $medanData;
+			$medan = ($myTable=='rangka14') ? $medanRangka : $medanData;
             // dapatkan bilangan jumlah rekod
             $bilSemua = $this->tanya->kiraKes($sv, $myTable, $medan, $fe);
             // tentukan bilangan mukasurat 
