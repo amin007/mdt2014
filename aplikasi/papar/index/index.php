@@ -90,8 +90,8 @@ foreach ($kup as $key => $nama)
 	background-color: #000000; color:#ffffff">PEGAWAI</a>
 	<a class="zoom" title="Apa Kabar En Abdul Razak" href="index/login_automatik/razak"
 	style="font-size: 20pt; background-color: #ffff00; color:#ff0000">Razak</a>
-	<a class="zoom" title="Apa Kabar En Fareza" href="index/login_automatik/fareza"
-	style="font-size: 20pt; background-color: #ffff00; color:#ff0000">Fareza</a>
+	<a class="zoom" title="Apa Kabar En Azhari" href="index/login_automatik/azhari"
+	style="font-size: 20pt; background-color: #ffff00; color:#ff0000">Azhari</a>
 	</td></tr>
 </table>
 <!-- ----------------------------------------------------------------------------------- -->
