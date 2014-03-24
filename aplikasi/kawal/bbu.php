@@ -37,10 +37,8 @@ class Bbu extends Kawal
 			. 'email,nota,msic08';
 			//. 'newss,msic,nama,utama,fe,terima,'
 			//. 'hasil,dptLain,web,stok,staf,gaji,outlet,sebab';
-		$this->medanData = ''
-			. 'newss,msic,nama,utama,fe,"<input type=text>" as org,terima,'
+		$this->medanData = 'newss,msic,nama,utama,fe,terima,'
 			. ' format( (hasil + IFNULL(dptLain,0) ), 0 ) as dapat,'
-			//. ' ( hasil + IFNULL(dptLain,0) ) as dapat,'
 			//. '(hasil+COALESCE(dptLain,0)) as dapat2,'
 			. 'format(hasil,0) as hasil,format(dptlain,0) as dptlain,' . "\r"
 			. 'format(stok,0) as stok,staf,format(gaji,0) as gaji,' . "\r"
@@ -63,7 +61,7 @@ class Bbu extends Kawal
 			$medanData = $this->medanData;
 			$sv = $this->sv;
         // mula papar semua dalam $myTable
-        $bulanan = bulanan('kawalan','13'); # papar bulan dlm tahun semasa
+        $bulanan = bulanan('kawalan','14'); # papar bulan dlm tahun semasa
         # semak pembolehubah $bulanan
         //echo '<pre>', print_r($bulanan, 1) . '</pre><br>';
         foreach ($bulanan as $key => $myTable)
@@ -108,7 +106,7 @@ class Bbu extends Kawal
 			$medanData = $this->medanData;
 			$sv = $this->sv;
         // mula papar semua dalam $myTable
-        $bulanan = bulanan('kawalan','13'); # papar bulan dlm tahun semasa
+        $bulanan = bulanan('kawalan','14'); # papar bulan dlm tahun semasa
         # semak pembolehubah $bulanan
         //echo '<pre>', print_r($bulanan, 1) . '</pre><br>';
         foreach ($bulanan as $key => $myTable)
@@ -153,7 +151,7 @@ class Bbu extends Kawal
 			$medanData = $this->medanData;
 			$sv = $this->sv;
         // mula papar semua dalam $myTable
-        $bulanan = bulanan('kawalan','13'); # papar bulan dlm tahun semasa
+        $bulanan = bulanan('kawalan','14'); # papar bulan dlm tahun semasa
         # semak pembolehubah $bulanan
         //echo '<pre>', print_r($bulanan, 1) . '</pre><br>';
         foreach ($bulanan as $key => $myTable)
