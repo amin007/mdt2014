@@ -84,7 +84,7 @@ class Cari extends Kawal
 		/* fungsi ini memaparkan borang
 		 * untuk carian syarikat sahaja
 		 */
-		$this->papar->medan = $this->tanya->paparMedan('mdt_rangka13');
+		$this->papar->medan = $this->tanya->paparMedan('mdt_rangka14');
 		//echo '<pre>$this->papar->medan:<br>'; print_r($this->papar->medan); 
 		$url = dpt_url();
 		$this->papar->url = $url;
@@ -93,7 +93,7 @@ class Cari extends Kawal
 		$this->papar->gambar=gambar_latarbelakang('../../');
 		// Set pemboleubah utama
 		$this->papar->pegawai = senarai_kakitangan();
-		$this->papar->Tajuk_Muka_Surat='MDT 2013';
+		$this->papar->Tajuk_Muka_Surat='MDT 2014';
 		// pergi papar kandungan
 		$this->papar->baca('cari/index', 0);
 	}
