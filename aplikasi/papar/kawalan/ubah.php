@@ -53,6 +53,7 @@ function cariInput($kira,$key,$data)
 
 function paparInputBulanan($bulan,$row,$kira,$key,$data)
 {
+	//$s1 = '<span class="add-on">';
 	$s1 = '<span class="label">';
 	$s2 = '</span>';
 	$name = 'name="' . $bulan . '[' . $key . ']"';
@@ -97,7 +98,10 @@ function paparInputBulanan($bulan,$row,$kira,$key,$data)
 		$input .= ($data==null) ? '' : $s1 . $data . $s2;
 	}
 
-	return $input;
+	$dataInput = '<div class="input-prepend">' . $input 
+		. '</div>';
+		
+	return $dataInput;
 }
 // mula untuk kod php+html
 function papar_jadual($row, $myTable, $pilih)
@@ -266,9 +270,10 @@ else
     $hantar_sms = URL . 'pengguna/smskes/' . $kawan . '/' . $sykt;
 	
 ?>
-<form method="post" action="<?php echo URL;?>kawalan/ubahSimpan/<?php echo $newss; ?>"
+<?PHP //class="form-horizontal"> ?>
+<form method="POST" action="<?php echo URL;?>kawalan/ubahSimpan/<?php echo $newss; ?>"
 class="form-horizontal">
-<!-- test textbox edit by a href -->
+
 <!-- jadual rangka ########################################### -->
 <?php
 foreach ($this->rangka as $myTable => $row)
@@ -295,6 +300,7 @@ foreach ($this->rangka as $myTable => $row)
 <hr>
 <!-- jadual data ########################################### -->
 <a target='_blank' href="<?php echo $hantar_sms ?>" class="btn btn-primary btn-large">Hantar sms</a>
+<form class="form">
 <table border="1" class="table table-bordered table-striped">
 <tr><?php echo $this->paparTajuk; ?></tr>
 <?php
@@ -330,9 +336,9 @@ foreach ($this->kesID as $myTable => $row)
             (    ($key == 'newss') ?
                 '<td>' . $input . '</td>'
                 : // kalau bukan $key==newss                
-                "\n" . '<td>' // . '<div class="input-prepend">' . $input 
-                //. '<span class="add-on"><i class="icon- icon-remove"></i></span></div>'
-                . $input . '</td>'
+                "\n" . '<td>' //. '<div class="input-prepend">' . $input 
+                //. '<span class="add-on"><i class="icon- icon-remove"></i></span></div></td>'
+					. $input . '</td>'
             );
         } 
 ?>
@@ -377,7 +383,22 @@ foreach ($this->kesID as $myTable => $row)
 					. '</td>';	
 			}
 		echo "\n" . '<td align="center">' . $pekerja . '</td>';	
-		echo "\n" . '<td align="center">&nbsp;</td>';
+		//echo "\n" . '<td align="center">&nbsp;</td>';
+?>
+<td align="center">	
+<form class="form">
+	<div class="control-group">
+		<div class="controls">
+			<div class="input-prepend input-append">
+				<span class="add-on">$</span>
+				<input class="span1" size="2" type="text">
+				<span class="add-on">.00</span>
+			</div>
+		</div>
+	</div>
+</form>
+</td>
+<?php
 		echo "\r" . '</tr>';
 ?>
 <?php
@@ -389,6 +410,7 @@ foreach ($this->kesID as $myTable => $row)
 <input type="submit" name="Simpan" value="Simpan" class="btn btn-primary btn-large">
 </form>
 <hr>
+
 <?php } // $this->carian=='sidap' - tamat 
 /*
 */
