@@ -6,7 +6,95 @@ class Kawalan_Tanya extends Tanya
 	public function __construct() 
 	{
 		parent::__construct();
-		$this->_susun = ' ORDER BY msic,nama';
+		
+		$this->_susun = ' ORDER BY utama,msic,nama';
+	}
+
+	private function cari($fe)
+	{
+		return $carife = ( !isset($fe) ) ? '' : ' WHERE fe = "' . $fe . '"';
+	}
+	
+	private function dimana($carian)
+	{
+		//' WHERE ' . $medan . ' like %:cariID% ', array(':cariID' => $cariID));
+		$where = null;
+		if($carian==null || $carian=='' || empty($carian) ):
+			$where .= null;
+		else:
+			foreach ($carian as $key=>$value)
+			{
+				   $atau = isset($carian[$key]['atau'])  ? $carian[$key]['atau'] . ' ' : null;
+				  $medan = isset($carian[$key]['medan']) ? $carian[$key]['medan']      : null;
+				    $fix = isset($carian[$key]['fix'])   ? $carian[$key]['fix']        : null;			
+				$cariApa = isset($carian[$key]['apa'])   ? $carian[$key]['apa']        : null;
+				//echo "\r$key => ($fix) $atau $medan = '$apa'  ";
+				
+				if ($cariApa==null) 
+					$where .= " $atau`$medan` is null\r";
+				elseif($fix=='xnull')
+					$where .= " $atau`$medan` is not null \r";
+				elseif($fix=='x=')
+					$where .= " $atau`$medan` = '$cariApa'\r";
+				elseif($fix=='x!=')
+					$where .= " $atau`$medan` != '$cariApa'\r";
+				elseif($fix=='like')
+					$where .= " $atau`$medan` like '%$cariApa%'\r";	
+				elseif($fix=='xlike')
+					$where .= " $atau`$medan` not like '%$cariApa%'\r";	
+				elseif($fix=='like%')
+					$where .= " $atau`$medan` like '$cariApa%'\r";	
+				elseif($fix=='xlike%')
+					$where .= " $atau`$medan` not like '$cariApa%'\r";	
+				elseif($fix=='%like')
+					$where .= " $atau`$medan` like '%$cariApa'\r";	
+				elseif($fix=='x%like')
+					$where .= " $atau`$medan` not like '%$cariApa'\r";	
+				elseif($fix=='xin')
+					$where .= " $atau`$medan` not in $cariApa\r";						
+				elseif($fix=='khas')
+					$where .= " $atau`$medan` not like $cariApa\r";	
+				elseif($fix=='khas2')
+					$where .= " $atau`$medan` REGEXP CONCAT('(^| )','',$cariApa)\r";	
+				elseif($fix=='xkhas2')
+					$where .= " $atau`$medan` NOT REGEXP CONCAT('(^| )','',$cariApa)\r";	
+				elseif($fix=='khas3')
+					$where .= " $atau`$medan` REGEXP CONCAT('[[:<:]]',$cariApa,'[[:>:]]')\r";	
+				elseif($fix=='xkhas3')
+					$where .= " $atau`$medan` NOT REGEXP CONCAT('[[:<:]]',$cariApa,'[[:>:]]')\r";	
+			}
+		endif;
+	
+		return $where;
+	
+	}
+	
+	private function dibawah($carian)
+	{
+		$susun = null;
+		if($carian==null || empty($carian) ):
+			$susun .= null;
+		else:
+			foreach ($carian as $key=>$cari)
+			{
+				$kumpul = isset($carian['kumpul'])? $carian['kumpul'] : null;
+				 $order = isset($carian['susun']) ? $carian['susun']  : null;
+				  $dari = isset($carian['dari'])  ? $carian['dari']   : null;			
+				   $max = isset($carian['max'])   ? $carian['max']    : null;
+				
+				//echo "\$cari = $cari, \$key=$key <br>";
+				if ($kumpul!=null)  $susun = " GROUP BY concat('%',$kumpul,'%')\r";
+				elseif($order!=null)$susun = " ORDER BY $order\r";
+				elseif($dari!=null) $susun = " LIMIT $dari";	
+				elseif($max!=null)  $susun .= ",$max\r";
+			}
+		endif;
+		
+		//echo '<pre>susun:'; print_r($carian) . '</pre><br>';
+		//echo "$kumpul $order $dari $max hahaha<hr>";
+		//echo " $order $dari,$max hahaha<hr>";
+		return $susun;
+	
 	}
 
 	public function paparMedan($myTable, $papar = null)
@@ -15,7 +103,7 @@ class Kawalan_Tanya extends Tanya
 		//return $this->db->select('SHOW COLUMNS FROM ' . $myTable);
 		$sql = 'SHOW COLUMNS FROM ' . $myTable . $cari;
 		
-		//echo $sql . '<br>';
+		//echo htmlentities($sql) . '<br>';
 		return $this->db->selectAll($sql);
 	}
 
@@ -26,7 +114,7 @@ class Kawalan_Tanya extends Tanya
 		$sql = 'SELECT * FROM ' 
 			 . $sv . $myTable . $carife . $this->_susun;
 		
-		//echo $sql . '<br>';
+		//echo htmlentities($sql) . '<br>';
 		$result = $this->db->rowCount($sql);
 		//echo '<br>Bil hasil = ' . $result . '<br>';
 		//echo json_encode($result);
@@ -36,12 +124,10 @@ class Kawalan_Tanya extends Tanya
 
 	public function paparSemua($sv, $myTable, $medan, $fe, $jum)
 	{
-		//$jum['dari'] . ', ' . $jum['max']
-		$carife = ( !isset($fe) ) ? '' : ' WHERE fe = "' . $fe . '"';
-		$sql = 'SELECT ' . $medan . ' FROM ' 
-			 . $sv . $myTable . ' b ' . $carife . $this->_susun;
+		$sql = 'SELECT ' . $medan . ' FROM ' . $sv . $myTable . ' b ' 
+			 . $this->cari($fe) . $this->_susun;
 		
-		//echo $sql . '<br>';
+		//echo htmlentities($sql) . '<br>';
 		$result = $this->db->selectAll($sql);
 		//echo json_encode($result);
 		
@@ -50,14 +136,11 @@ class Kawalan_Tanya extends Tanya
 
 	public function kesSemua($sv, $myTable, $medan, $fe, $jum)
 	{
-		//$jum['dari'] . ', ' . $jum['max']
-		$carife = ( !isset($fe) ) ? '' : ' WHERE fe = "' . $fe . '"';
-
-		$sql = 'SELECT ' . $medan . ' FROM ' 
-			 . $sv . $myTable . ' as b ' . $carife . $this->_susun 
+		$sql = 'SELECT ' . $medan . ' FROM ' . $sv . $myTable . ' as b ' 
+			 . $this->cari($fe) . $this->_susun 
 			 . ' LIMIT ' . $jum['dari'] . ', ' . $jum['max'];
 
-		//echo $sql . '<br>';
+		//echo htmlentities($sql) . '<br>';
 		$result = $this->db->selectAll($sql);
 		//echo json_encode($result);
 		
@@ -66,16 +149,14 @@ class Kawalan_Tanya extends Tanya
 
 	public function kesSelesai($sv, $myTable, $medan, $fe, $jum)
 	{
-		//$jum['dari'] . ', ' . $jum['max']
-		$carife = ( !isset($fe) ) ? '' : ' and fe = "' . $fe . '"';
 		$a1 = ($myTable == 'rangka13') ?
 			' respon = "A1"' : ' terima is not null';
 
-		$sql = 'SELECT ' . $medan . ' FROM ' . $sv . $myTable 
-			 . ' b WHERE' . $a1 . $carife . $this->_susun 
+		$sql = 'SELECT ' . $medan . ' FROM ' . $sv . $myTable . ' b ' 
+			 . $this->cari($fe)	. $a1 . $this->_susun 
 			 . ' LIMIT ' . $jum['dari'] . ', ' . $jum['max'];
 
-		//echo $sql . '<br>';
+		//echo htmlentities($sql) . '<br>';
 		$result = $this->db->selectAll($sql);
 		//echo json_encode($result);
 		
@@ -92,7 +173,7 @@ class Kawalan_Tanya extends Tanya
 			 . $carife . $this->_susun 
 			 . ' LIMIT ' . $jum['dari'] . ', ' . $jum['max'];
 
-		//echo $sql . '<br>';
+		//echo htmlentities($sql) . '<br>';
 		$result = $this->db->selectAll($sql);
 		//echo json_encode($result);
 		
@@ -110,7 +191,7 @@ class Kawalan_Tanya extends Tanya
 			 . $this->_susun 
 			 . ' LIMIT ' . $jum['dari'] . ', ' . $jum['max'];
 
-		//echo $sql . '<br>';
+		//echo htmlentities($sql) . '<br>';
 		$result = $this->db->selectAll($sql);
 		//echo json_encode($result);
 		
@@ -128,7 +209,7 @@ class Kawalan_Tanya extends Tanya
 			 . $this->_susun 
 			 . ' LIMIT ' . $jum['dari'] . ', ' . $jum['max'];
 
-		//echo $sql . '<br>';
+		//echo htmlentities($sql) . '<br>';
 		$result = $this->db->selectAll($sql);
 		//echo json_encode($result);
 		
@@ -155,7 +236,7 @@ class Kawalan_Tanya extends Tanya
 			 . ' b, `mdt_rangka13` as c '
 			 . $cariUtama . $cariRespon . $cariFe;
 
-		//echo $sql . '<br>';
+		//echo htmlentities($sql) . '<br>';
 		$result = $this->db->rowcount($sql);
 		//echo json_encode($result);
 		
@@ -184,7 +265,7 @@ class Kawalan_Tanya extends Tanya
 			 . $cariUtama . $cariRespon . $cariFe
 			 . ' LIMIT ' . $jum['dari'] . ', ' . $jum['max'];
 
-		//echo $sql . '<br>';
+		//echo htmlentities($sql) . '<br>';
 		$result = $this->db->selectAll($sql);
 		//echo json_encode($result);
 		
@@ -215,7 +296,7 @@ class Kawalan_Tanya extends Tanya
 			 . ' WHERE ' . $cariMedan . ' like "%' . $cariID . '%" ';
 		//' WHERE ' . $medan . ' like %:cariID% ', array(':cariID' => $cariID));
 
-		//echo $sql . '<br>';
+		//echo htmlentities($sql) . '<br>';
 		$result = $this->db->selectAll($sql);
 		//echo json_encode($result);
 		
@@ -230,7 +311,7 @@ class Kawalan_Tanya extends Tanya
 		$sql = 'SELECT ' . $medan . ' FROM ' . 	$myTable 
 			 . ' WHERE ' . $cariMedan . ' = "' . $cariID . '" ';
 		
-		//echo $sql . '<br>';
+		//echo htmlentities($sql) . '<br>';
 		$result = $this->db->selectAll($sql);
 		//echo json_encode($result);
 		
@@ -245,7 +326,7 @@ class Kawalan_Tanya extends Tanya
 		$sql = 'SELECT ' . $medan . ' FROM ' . 	$myTable 
 			 . ' WHERE ' . $cariMedan . ' = "' . $cariID . '" ';
 		
-		//echo $sql . '<br>';
+		//echo htmlentities($sql) . '<br>';
 		$result = $this->db->select($sql);
 		//echo json_encode($result);
 		
@@ -260,7 +341,7 @@ class Kawalan_Tanya extends Tanya
 		$sql = 'SELECT ' . $medan . ' FROM ' . $myTable 
 			 . ' WHERE ' . $cariMedan . ' = "' . $cariID . '" ';
 		
-		//echo $sql . '<br>';
+		//echo htmlentities($sql) . '<br>';
 		$result = $this->db->selectAll($sql);
 		//echo json_encode($result);
 		
@@ -272,7 +353,7 @@ class Kawalan_Tanya extends Tanya
 		$sql = 'SELECT * FROM ' . $myTable 
 			 . ' WHERE data12 <> "Batch 1" ';
 		
-		//echo $sql . '<br>';
+		//echo htmlentities($sql) . '<br>';
 		$result = $this->db->rowcount($sql);
 		//echo json_encode($result);
 		
@@ -284,7 +365,7 @@ class Kawalan_Tanya extends Tanya
 		$sql = 'SELECT * FROM ' . 	$myTable 
 			 . ' WHERE data12 <> "Batch 1" ';
 		
-		//echo $sql . '<br>';
+		//echo htmlentities($sql) . '<br>';
 		$result = $this->db->select($sql);
 		//echo json_encode($result);
 		
@@ -302,7 +383,7 @@ class Kawalan_Tanya extends Tanya
 			 . ' WHERE data12 <> "Batch 1" ' 
 			 . $cari . ' LIMIT ' . $jum['dari'] . ', ' . $jum['max'];
 		
-		//echo $sql . '<br>';
+		//echo htmlentities($sql) . '<br>';
 		$result = $this->db->selectAll($sql);
 		//echo json_encode($result);
 		
@@ -358,7 +439,7 @@ class Kawalan_Tanya extends Tanya
 	
 	public function cantumsql($sql) 
 	{
-		//echo $sql . '<br>';
+		//echo htmlentities($sql) . '<br>';
 		$result = $this->db->selectAll($sql);
 		//echo json_encode($result);
 		
