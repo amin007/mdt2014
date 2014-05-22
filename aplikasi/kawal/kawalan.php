@@ -54,34 +54,32 @@ class Kawalan extends Kawal
     {    
 		$fe = ($this->level == 'kawal') ? $fe : $this->pengguna; # set nama fe
         $bulanan = bulanan('kawalan','14'); # papar bulan dlm tahun semasa     
-        // setkan pembolehubah untuk $this->tanya
+        # setkan pembolehubah untuk $this->tanya
             $medanRangka = $this->medanRangka;
 			$medanData = $this->medanData;
             $sv = $this->sv;
 			
-        // mula papar semua dalam $myTable
+        # mula papar semua dalam $myTable
         foreach ($bulanan as $key => $myTable)
         {// mula ulang table
 			// setkan $medan
 			$medan = ($myTable=='rangka14') ? $medanRangka : $medanData;
-            // dapatkan bilangan jumlah rekod
+            # dapatkan bilangan jumlah rekod
             $bilSemua = $this->tanya->kiraKes($sv, $myTable, $medan, $fe);
-            // tentukan bilangan mukasurat 
-            // bilangan jumlah rekod
 			//echo '$bilSemua:'.$bilSemua.', $item:'.$item.', $ms:'.$ms.'<br>';
             $jum = pencamSqlLimit($bilSemua, $item, $ms);
             $this->papar->bilSemua[$myTable] = $bilSemua;
-            // sql guna limit
+            # sql guna limit
             $this->papar->cariApa[$myTable] = $this->tanya->
 				paparSemua($sv, $myTable, $medan, $fe, $jum);
-            // halaman
+            # halaman
             $this->papar->halaman[$myTable] = halaman($jum);
         }// tamat ulang table
 
 		# semak pembolehubah $this->papar->cariApa
-        //echo '<pre>', print_r($this->papar->cariApa, 1) . '</pre><br>';
+        #echo '<pre>', print_r($this->papar->cariApa, 1) . '</pre><br>';
         
-        // papar
+        # papar
         $this->papar->pegawai = senarai_kakitangan();
         $this->papar->carian = 'semuajadual';
         $this->papar->baca('kawalan/index', 0);
@@ -90,7 +88,7 @@ class Kawalan extends Kawal
     function semak($cariID) 
     {//echo '<br>Anda berada di class Imej extends Kawal:ubah($cari)<br>';
                 
-        // senaraikan tatasusunan jadual dan setkan pembolehubah
+        # senaraikan tatasusunan jadual dan setkan pembolehubah
 		$id = isset($cariID) ? $cariID : null; // cari id berasaskan sidap
         $bulanan = bulanan('nama_bulan',null); # papar bulan dlm tahun semasa
 		/* cantum data tahun 2011-2013 */
@@ -165,7 +163,7 @@ class Kawalan extends Kawal
         {
             //echo '$id:' . $id . '<br>';
             $this->papar->carian='newss';	
-            // 2. cari $cariID dalam $bulanan
+            # 2. cari $cariID dalam $bulanan
             foreach ($bulanan as $key => $myTable)
             {// mula ulang table
 				
@@ -219,7 +217,7 @@ class Kawalan extends Kawal
             $this->papar->carian='[tiada id diisi]';
         }
         
-        // isytihar pemboleubah
+        # isytihar pemboleubah
         //$tajuk2=array('bulan','nama','msic','terima','hasil','dptLain',
         //'web','stok','staf','gaji','sebab','outlet','nota');
         $tajuk2=array('bulan','nama','msic','terima','hasil','dptLain','web','stok','staf','gaji','sebab','outlet');
@@ -235,7 +233,7 @@ class Kawalan extends Kawal
         $this->papar->lokasi = 'MDT 2012 - Ubah';
 		$this->papar->cari = $id;
 		
-        // semak data
+        # semak data
 		/*
 		echo '<pre>';
 		//echo '$kesID:<br>'; print_r($kesID); 
@@ -246,7 +244,7 @@ class Kawalan extends Kawal
 		echo '</pre>';
 		*/
 		
-        // paparkan ke fail kawalan/ubah.php
+        # paparkan ke fail kawalan/ubah.php
 		//$this->papar->baca('kawalan/ubah', 1);
 
     }    
@@ -259,7 +257,7 @@ class Kawalan extends Kawal
          * $fe = null // set $fe = pegawai kerja luar tiada
          */
 
-        // setkan pembolehubah untuk $this->tanya
+        # setkan pembolehubah untuk $this->tanya
             $myTable = 'dtsample_takatfeb13';
 			$medan = 'newss,msic,sv,ssm,nama,operator, '
 				   . 'concat_ws("<br>",alamat1,alamat2,poskod) as alamat,ngdbbp,utama,thn,data12,'
@@ -267,29 +265,29 @@ class Kawalan extends Kawal
 				   //`STATE CODE`		F1005 Baru)	STATE_NAME_MS	EB ID PO_ORGUNIT_NAME	DISTRICT_NAME_MS';
 			$sv = null;
 	
-        // mula papar semua dalam $myTable
-            // dapatkan bilangan jumlah rekod
+        # mula papar semua dalam $myTable
+            # dapatkan bilangan jumlah rekod
             $bilSemua = $this->tanya->kiraProsesan($myTable);
-            // tentukan bilangan mukasurat 
+            # tentukan bilangan mukasurat 
             // bilangan jumlah rekod
     		//echo '$bilSemua:'.$bilSemua.', $item:'.$item.', $ms:'.$ms.'<br>';
             $jum = pencamSqlLimit($bilSemua, $item, $ms);
             $this->papar->bilSemua[$myTable] = $bilSemua;
-            // sql guna limit
+            # sql guna limit
             $this->papar->cariApa[$myTable] = $this->tanya->
 			semakRangkaProsesan($myTable, $medan, $cari = null, $jum);
-            // halaman
+            # halaman
             $this->papar->halaman[$myTable] = halaman($jum);
 			
         
         # semak pembolehubah $this->papar->cariApa
         //echo '<pre>', print_r($this->papar->cariApa, 1) . '</pre><br>';
         
-        // Set pemboleubah utama
+        # Set pemboleubah utama
         $this->papar->pegawai = senarai_kakitangan();
         $this->papar->carian = 'semakbatch';
         $this->papar->url = dpt_url();
-        // pergi papar kandungan
+        # pergi papar kandungan
         $this->papar->baca('kawalan/semak', 0);
     }
 
@@ -299,11 +297,11 @@ class Kawalan extends Kawal
         //echo '<pre>'; print_r($_POST) . '</pre>';
         /*     $_POST[id] => Array ( [ssm] => 188561 atau [nama] => sharp manu ) */
         
-        // senaraikan tatasusunan jadual
+        # senaraikan tatasusunan jadual
         $myJadual = tahunan('semuakawalan', null);
         $this->papar->cariNama = array();
 
-        // cari id berasaskan newss/ssm/sidap/nama
+        # cari id berasaskan newss/ssm/sidap/nama
         $id['ssm'] = isset($_POST['id']['ssm']) ? $_POST['id']['ssm'] : null;
         $id['nama'] = isset($_POST['id']['nama']) ? $_POST['id']['nama'] : null;
             
@@ -315,10 +313,10 @@ class Kawalan extends Kawal
             $cariID = $id['ssm']; // benda yang dicari
             $this->papar->carian='ssm';
             
-            // mula cari $cariID dalam $myJadual
+            # mula cari $cariID dalam $myJadual
             foreach ($myJadual as $key => $myTable)
             {// mula ulang table
-                // senarai nama medan
+                # senarai nama medan
                 $medan = ($myTable=='sse10_kawal') ? 
                     'sidap,newss,nama' : 'sidap,nama'; 
                 $this->papar->cariNama[$myTable] = 
@@ -332,10 +330,10 @@ class Kawalan extends Kawal
             $cariID = $id['nama'];
             $this->papar->carian='nama';
             
-            // mula cari $cariID dalam $myJadual
+            # mula cari $cariID dalam $myJadual
             foreach ($myJadual as $key => $myTable)
             {// mula ulang table
-                // senarai nama medan
+                # senarai nama medan
                 $medan = ($myTable=='sse10_kawal') ? 
                     'sidap,newss,nama' : 'sidap,nama'; 
                 $this->papar->cariNama[$myTable] = 
@@ -348,7 +346,7 @@ class Kawalan extends Kawal
             $this->papar->carian='[id:0]';
         }
         
-        // paparkan ke fail cimej/cari.php
+        # paparkan ke fail cimej/cari.php
         $this->papar->baca('cimej/cari');
         
     }
@@ -356,7 +354,7 @@ class Kawalan extends Kawal
     function ubah($cariID) 
     {//echo '<br>Anda berada di class Imej extends Kawal:ubah($cari)<br>';
                 
-        // senaraikan tatasusunan jadual dan setkan pembolehubah
+        # senaraikan tatasusunan jadual dan setkan pembolehubah
         $bulanan = bulanan('data_bulanan','14'); # papar bulan dlm tahun semasa
         $jadualRangka = 'rangka14';
         $medanRangka ='newss,nama,ssm,utama,' .
@@ -377,7 +375,7 @@ class Kawalan extends Kawal
             //echo '$id:' . $id . '<br>';
             $this->papar->carian='newss';
 
-            // 1. mula semak dalam rangka 
+            # 1. mula semak dalam rangka 
             $this->papar->rangka['kes'] = 
                 $this->tanya->cariSemuaMedan($sv . $jadualRangka, 
                 $medanRangka, $cari);
@@ -403,7 +401,7 @@ class Kawalan extends Kawal
 				cariIndustri($msic, $medanM6, $cariM6);
 			}// tamat ulang table
 		
-            // 2. cari $cariID dalam $bulanan
+            # 2. cari $cariID dalam $bulanan
             foreach ($bulanan as $key => $myTable)
             {// mula ulang table
                 $this->papar->kesID[$myTable] = 
@@ -455,7 +453,7 @@ class Kawalan extends Kawal
             $this->papar->carian='[tiada id diisi]';
         }
         
-        // isytihar pemboleubah
+        # isytihar pemboleubah
         //$tajuk2=array('bulan','nama','msic','terima','hasil','dptLain',
         //'web','stok','staf','gaji','sebab','outlet','nota');
         $tajuk2=array('bulan','nama','msic','terima','hasil','dptLain','web','stok','staf','gaji','sebab','outlet');
@@ -471,7 +469,7 @@ class Kawalan extends Kawal
         $this->papar->lokasi = 'MDT 2012 - Ubah';
 		$this->papar->cari = $id;
 		
-        // semak data
+        # semak data
 		/*
 		echo '<pre>';
 		//echo '$kesID:<br>'; print_r($kesID); 
@@ -542,7 +540,7 @@ class Kawalan extends Kawal
 			//echo '<pre>$_POST='; print_r($_POST) . '</pre>';
 			//echo '<pre>$posmen='; print_r($posmen) . '</pre>';
         
-        // mula ulang $bulanan
+        # mula ulang $bulanan
         
         foreach ($bulanan as $kunci => $jadual)
         {// mula ulang table
@@ -559,7 +557,7 @@ class Kawalan extends Kawal
 
 	public function tambah($cariID = null) 
 	{				
-        // senaraikan tatasusunan jadual dan setkan pembolehubah
+        # senaraikan tatasusunan jadual dan setkan pembolehubah
         $bulanan = bulanan('data_bulanan','13'); # papar bulan dlm tahun semasa
         $jadualRangka = 'rangka14';
         $medanRangka ='newss,nama,ssm,utama,' .
@@ -679,7 +677,7 @@ class Kawalan extends Kawal
         //echo '<pre>$_POST='; print_r($_POST) . '</pre>';
         //echo '<pre>$posmen='; print_r($posmen) . '</pre>';
         
-        // mula ulang $bulanan
+        # mula ulang $bulanan
 		$this->tanya->ubahSimpan(
 			$data = array('kawalan'=>'sudah', 'newss'=>$dataID), 
 			$myTable = 'dtsample_takatfeb13');
@@ -724,7 +722,7 @@ class Kawalan extends Kawal
 		}
 	
 		
-        // pergi papar kandungan
+        # pergi papar kandungan
 		$this->papar->pegawai = senarai_kakitangan();
 		$this->papar->halaman = null;
      	// memilih antara papar dan cetak
