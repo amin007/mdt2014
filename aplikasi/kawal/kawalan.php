@@ -61,7 +61,7 @@ class Kawalan extends Kawal
 			
         # mula papar semua dalam $myTable
         foreach ($bulanan as $key => $myTable)
-        {// mula ulang table
+        {# mula ulang table
 			// setkan $medan
 			$medan = ($myTable=='rangka14') ? $medanRangka : $medanData;
             # dapatkan bilangan jumlah rekod
@@ -74,7 +74,7 @@ class Kawalan extends Kawal
 				paparSemua($sv, $myTable, $medan, $fe, $jum);
             # halaman
             $this->papar->halaman[$myTable] = halaman($jum);
-        }// tamat ulang table
+        }# tamat ulang table
 
 		# semak pembolehubah $this->papar->cariApa
         #echo '<pre>', print_r($this->papar->cariApa, 1) . '</pre><br>';
@@ -94,7 +94,7 @@ class Kawalan extends Kawal
 		/* cantum data tahun 2011-2013 */
 		// tahun 2011
 		foreach ($bulanan as $kunci => $bln)
-		{// mula ulang table
+		{# mula ulang table
 			$bulan='pom_bln11.mdt_' . $bln . '11';
 			
 			$medan='concat(substring(newss,1,3),\' \',substring(newss,4,3),\' \','.
@@ -103,14 +103,14 @@ class Kawalan extends Kawal
 			'stok,staf,gaji,sebab,outlet,\'' . $bln . '11\'' . "\r";
 
 			$sql[]='SELECT ' . $medan . 'FROM ' . $bulan . ' WHERE newss="' . $id . '" ';
-		}// tamat ulang table
+		}# tamat ulang table
 		$query = implode("\rUNION\r",$sql);
 		//echo '<pre>' . $query . '</pre>';
 		$paparCantum['2011'] = $this->tanya->cantumsql($query);
 		unset($sql, $query);
-		// tahun 2012
+		# tahun 2012
 		foreach ($bulanan as $kunci => $bln)
-		{// mula ulang table
+		{# mula ulang table
 			$bulan='pom_bln12.mdt_' . $bln . '12';
 			
 			$medan='concat(substring(newss,1,3),\' \',substring(newss,4,3),\' \','.
@@ -119,15 +119,15 @@ class Kawalan extends Kawal
 			'stok,staf,gaji,sebab,outlet,\'' . $bln . '12\'' . "\r";
 
 			$sql[]='SELECT ' . $medan . 'FROM ' . $bulan . ' WHERE newss="' . $id . '" ';
-		}// tamat ulang table
+		}# tamat ulang table
 		
 		$query = implode("\rUNION\r",$sql);
 		//echo '<pre>' . $query . '</pre>';
 		$paparCantum['2012'] = $this->tanya->cantumsql($query);
 		unset($sql, $query);
-		// tahun 2013
+		# tahun 2013
 		foreach ($bulanan as $kunci => $bln)
-		{// mula ulang table
+		{# mula ulang table
 			$bulan='pom_bln13.mdt_' . $bln . '13';
 			
 			$medan='concat(substring(newss,1,3),\' \',substring(newss,4,3),\' \','.
@@ -136,15 +136,14 @@ class Kawalan extends Kawal
 			'stok,staf,gaji,sebab,outlet,\'' . $bln . '13\'' . "\r";
 
 			$sql[]='SELECT ' . $medan . 'FROM ' . $bulan . ' WHERE newss="' . $id . '" ';
-		}// tamat ulang table
+		}# tamat ulang table
 		
 		$query = implode("\rUNION\r",$sql);
 		//echo '<pre>' . $query . '</pre>';
 		$paparCantum['2013'] = $this->tanya->cantumsql($query);
-
 		//echo '<pre>';  print_r($paparCantum) . '</pre>';
 
-		// set pembolehubah
+		# set pembolehubah
         $jadualRangka = 'rangka14';
         $medanRangka ='newss,nama,ssm,utama,' .
 			'concat_ws("<br>",alamat1,alamat2,poskod,ngdbbp) as alamat,' . "\r" .
@@ -165,7 +164,7 @@ class Kawalan extends Kawal
             $this->papar->carian='newss';	
             # 2. cari $cariID dalam $bulanan
             foreach ($bulanan as $key => $myTable)
-            {// mula ulang table
+            {# mula ulang table
 				
 				//echo '<br>$key:' . $key;
 				for($kira=2011; $kira < 2014; $kira++)
@@ -191,7 +190,7 @@ class Kawalan extends Kawal
 					$data['gaji'][] = isset($paparCantum[$kira][$key]['gaji']) ?
 						$paparCantum[$kira][$key]['gaji'] : 0;
 				}
-            }// tamat ulang table
+            }# tamat ulang table
 			
 			echo '<pre>$data[dpt]::'; print_r($data['dpt']) . '<pre>';
 			
@@ -199,7 +198,7 @@ class Kawalan extends Kawal
 			foreach ($data as $medan => $key)
 			{// mula ulang data
 				foreach ($key as $bln => $data)
-				{// mula ulang table
+				{# mula ulang table
 					//echo '$medan:'.$medan.'|$bln:'.$bln.'|$data:'.$data.'<br>';
 					// beza 
 					$dulu = ($bln==0) ? 0 : $key[$bln-1]; 
@@ -208,7 +207,7 @@ class Kawalan extends Kawal
 					echo '<br>$medan:'.$medan.'|$dulu:'.$dulu.'|$kini:'.$kini.'|' .
 					kira2($dulu,$kini);
 
-				}// tamat ulang table
+				}# tamat ulang table
 			}// tamat ulang data
 			
         }
@@ -315,13 +314,13 @@ class Kawalan extends Kawal
             
             # mula cari $cariID dalam $myJadual
             foreach ($myJadual as $key => $myTable)
-            {// mula ulang table
+            {# mula ulang table
                 # senarai nama medan
                 $medan = ($myTable=='sse10_kawal') ? 
                     'sidap,newss,nama' : 'sidap,nama'; 
                 $this->papar->cariNama[$myTable] = 
                 $this->tanya->cariMedan($myTable, $medan, $cariMedan, $cariID);
-            }// tamat ulang table
+            }# tamat ulang table
         }
         elseif (!empty($id['nama']))
         {
@@ -332,13 +331,13 @@ class Kawalan extends Kawal
             
             # mula cari $cariID dalam $myJadual
             foreach ($myJadual as $key => $myTable)
-            {// mula ulang table
+            {# mula ulang table
                 # senarai nama medan
                 $medan = ($myTable=='sse10_kawal') ? 
                     'sidap,newss,nama' : 'sidap,nama'; 
                 $this->papar->cariNama[$myTable] = 
                 $this->tanya->cariMedan($myTable, $medan, $cariMedan, $cariID);
-            }// tamat ulang table
+            }# tamat ulang table
 
         }
         else
@@ -390,7 +389,7 @@ class Kawalan extends Kawal
 			$jadualMSIC = dpt_senarai('msiclama');
 			// mula cari $cariID dalam $jadual
 			foreach ($jadualMSIC as $m6 => $msic)
-			{// mula ulang table
+			{# mula ulang table
 				// senarai nama medan
 				$medanM6 = ($msic=='msic2008') ? 
 					'seksyen S,bahagian B,kumpulan Kpl,kelas Kls,' .
@@ -399,11 +398,11 @@ class Kawalan extends Kawal
 				//echo "cariMSIC($msic, $medanM6, $cariM6)<br>";
 				$this->papar->cariIndustri[$msic] = $this->tanya->
 				cariIndustri($msic, $medanM6, $cariM6);
-			}// tamat ulang table
+			}# tamat ulang table
 		
             # 2. cari $cariID dalam $bulanan
             foreach ($bulanan as $key => $myTable)
-            {// mula ulang table
+            {# mula ulang table
                 $this->papar->kesID[$myTable] = 
                     $this->tanya->cariSemuaMedan($sv . $myTable, 
                     $medanData, $cari);
@@ -425,7 +424,7 @@ class Kawalan extends Kawal
 					$this->papar->kesID[$myTable][0]['staf'] : 0;
 				$data['gaji'][$key] = isset($this->papar->kesID[$myTable][0]['gaji']) ?
 					$this->papar->kesID[$myTable][0]['gaji'] : 0;
-            }// tamat ulang table
+            }# tamat ulang table
 			
 			//echo '<pre>$data::'; print_r($data) . '<pre>';
 			
@@ -433,7 +432,7 @@ class Kawalan extends Kawal
 			foreach ($data as $medan => $kunci)
 			{// mula ulang data
 				foreach ($kunci as $key => $value)
-				{// mula ulang table
+				{# mula ulang table
 					//echo '$medan:'.$medan.'|$key:'.$key.'|$value:'.$value.'<br>';
 					$myTable = $bulanan[$key];
 					// beza 
@@ -443,7 +442,7 @@ class Kawalan extends Kawal
 					$this->papar->beza[$myTable][0][$medan] = ($key==0) ? null : 
 						//kira($kini)	. '|' . 
 						kira2($dulu,$kini);
-				}// tamat ulang table
+				}# tamat ulang table
 			}// tamat ulang data
 			
 			
@@ -543,12 +542,12 @@ class Kawalan extends Kawal
         # mula ulang $bulanan
         
         foreach ($bulanan as $kunci => $jadual)
-        {// mula ulang table
+        {# mula ulang table
             $myTable = $sv . $jadual;
 			$posmen[$myTable]['fe'] = $posmen[$rangka]['fe'];
             $data = $posmen[$myTable];
             $this->tanya->ubahSimpan($data, $myTable);
-        }// tamat ulang table
+        }# tamat ulang table
         
         //$this->papar->baca('kawalan/ubah/' . $dataID);
         header('location: ' . URL . 'kawalan/ubah/' . $dataID);
@@ -619,12 +618,12 @@ class Kawalan extends Kawal
 
 			// papar bulan jan - dis
 			foreach ($bulanan as $key => $myTable)
-			{// mula ulang table
+			{# mula ulang table
 				$papar = 'Field in ("newss","msic","nama","utama")';
 				$paparMedan[$sv . $myTable] = $this->tanya->paparMedan($sv . $myTable, $papar);
 				//$data[$sv . $myTable] = Borang::tambahBaru($paparMedan);
 				$this->papar->paparMedan[$sv . $myTable][] = Borang::tambahBaru($paparMedan, $databln);
-			}// tamat ulang table
+			}# tamat ulang table
 			
 			$tajuk2=array('bulan','newss','msic','nama','utama'); 
 			//,'fe','respon','terima','hasil','dptLain','web','stok','staf','gaji','outlet','sebab');
@@ -682,11 +681,11 @@ class Kawalan extends Kawal
 			$data = array('kawalan'=>'sudah', 'newss'=>$dataID), 
 			$myTable = 'dtsample_takatfeb13');
         foreach ($bulanan as $kunci => $jadual)
-        {// mula ulang table
+        {# mula ulang table
             $myTable = $jadual;
             $data = $posmen[$myTable];
             $this->tanya->tambahSimpan($data, $myTable);
-        }// tamat ulang table
+        }# tamat ulang table
 		
 		
 		// pergi papar kandungan
