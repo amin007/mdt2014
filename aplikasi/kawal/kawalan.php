@@ -379,18 +379,18 @@ class Kawalan extends Kawal
                 $this->tanya->cariSemuaMedan($sv . $jadualRangka, 
                 $medanRangka, $cari);
 			
-			// 1.1 ambil nilai msic & msic08
+			# 1.1 ambil nilai msic & msic08
 			$msic00 = $this->papar->rangka['kes'][0]['msic'];
 			//$msic08 = $this->papar->rangka['kes'][0]['msic08'];
 			$cariM6['medan'] = 'msic';
 			$cariM6['id'] = $msic00;
 			
-			// 1.2 cari nilai msic & msic08 dalam jadual msic2008
+			# 1.2 cari nilai msic & msic08 dalam jadual msic2008
 			$jadualMSIC = dpt_senarai('msiclama');
-			// mula cari $cariID dalam $jadual
+			# mula cari $cariID dalam $jadual
 			foreach ($jadualMSIC as $m6 => $msic)
 			{# mula ulang table
-				// senarai nama medan
+				# senarai nama medan
 				$medanM6 = ($msic=='msic2008') ? 
 					'seksyen S,bahagian B,kumpulan Kpl,kelas Kls,' .
 					'msic2000,msic,keterangan,notakaki' 
@@ -428,9 +428,9 @@ class Kawalan extends Kawal
 			
 			//echo '<pre>$data::'; print_r($data) . '<pre>';
 			
-			// 3. cari beza antara 2 bulan
+			# 3. cari beza antara 2 bulan
 			foreach ($data as $medan => $kunci)
-			{// mula ulang data
+			{# mula ulang data
 				foreach ($kunci as $key => $value)
 				{# mula ulang table
 					//echo '$medan:'.$medan.'|$key:'.$key.'|$value:'.$value.'<br>';
@@ -443,9 +443,7 @@ class Kawalan extends Kawal
 						//kira($kini)	. '|' . 
 						kira2($dulu,$kini);
 				}# tamat ulang table
-			}// tamat ulang data
-			
-			
+			}# tamat ulang data
         }
 		else
         {
@@ -491,11 +489,11 @@ class Kawalan extends Kawal
 		// bersihkan data $_POST
 		$dataID = bersih($_POST['cari']);
 		
-		// Set pemboleubah utama
+		# Set pemboleubah utama
         $this->papar->pegawai = senarai_kakitangan();
         $this->papar->lokasi = 'MDT 2012 - Ubah';
 		
-		// paparkan ke fail kawalan/ubah.php
+		# paparkan ke fail kawalan/ubah.php
 		header('location: ' . URL . 'kawalan/ubah/' . $dataID);
 
 	}
@@ -540,7 +538,6 @@ class Kawalan extends Kawal
 			//echo '<pre>$posmen='; print_r($posmen) . '</pre>';
         
         # mula ulang $bulanan
-        
         foreach ($bulanan as $kunci => $jadual)
         {# mula ulang table
             $myTable = $sv . $jadual;
@@ -572,10 +569,10 @@ class Kawalan extends Kawal
 
 		if (!empty($id)) 
         {
-			// set dalam KAWAL sahaja
+			# set dalam KAWAL sahaja
 			$this->papar->carian = $id;
 			$dtsample = $sv . $jadualRangka;
-			// cari data dalam dtsample
+			# cari data dalam dtsample
 			$jum = pencamSqlLimit($bilSemua = 22, $item = 100, $ms = 1);
 			$dataRangka[$dtsample] = $this->tanya->semakRangkaProsesan(
 				$myTable = 'dtsample_takatfeb13', $medan = '*', $cari, $jum);
@@ -598,15 +595,14 @@ class Kawalan extends Kawal
 			for ($kira=14; $kira < 23; $kira++)
 			{
 				$dataRangka[$kira] = ($kira==21) ?  
-					'Respon MDT2012=' . $dataRangka[$dtsample][0]['Respon 2012'] 
-					: null;
+					'Respon MDT2012=' . $dataRangka[$dtsample][0]['Respon 2012'] : null;
 			}
 						
 			//$this->papar->dataRangka[$dtsample] = $this->tanya->semakRangkaProsesan($mytable = 'dtsample_takatfeb13', $medan = '*', $cari);
-			// papar rangka mdt 2013 sahaja
+			# papar rangka mdt 2013 sahaja
 			$paparRangka[$dtsample] = $this->tanya->paparMedan($dtsample, $papar = null);
 			$this->papar->paparRangka[$dtsample][] = Borang::tambahRangkaBaru($paparRangka, $dataRangka);
-				//newss 	msic 	nama 	utama 
+				#newss 	msic 	nama 	utama 
 				$databln[0] = $dataRangka[$dtsample][0]['newss'];
 				$databln[1] = $dataRangka[$dtsample][0]['msic'];
 				$databln[2] = $dataRangka[$dtsample][0]['nama'];
@@ -616,7 +612,7 @@ class Kawalan extends Kawal
 					$databln[$kira] = null;
 				}
 
-			// papar bulan jan - dis
+			# papar bulan jan - dis
 			foreach ($bulanan as $key => $myTable)
 			{# mula ulang table
 				$papar = 'Field in ("newss","msic","nama","utama")';
@@ -646,10 +642,10 @@ class Kawalan extends Kawal
 		echo '</pre>';
 		//*/
 
-		// Set pemboleubah utama
+		# Set pemboleubah utama
         $this->papar->pegawai = senarai_kakitangan();
         $this->papar->lokasi = 'MDT 2013:Tambah';
-		// paparkan ke fail kawalan/tambah.php
+		# paparkan ke fail kawalan/tambah.php
 		$this->papar->baca($this->_folder . '/tambah', 0);
 	}
 	
@@ -688,7 +684,7 @@ class Kawalan extends Kawal
         }# tamat ulang table
 		
 		
-		// pergi papar kandungan
+		# pergi papar kandungan
 		//echo 'location: ' . URL . 'kawalan/ubah/' . $dataID;
 		header('location: ' . URL . 'kawalan/ubah/' . $dataID);
 
