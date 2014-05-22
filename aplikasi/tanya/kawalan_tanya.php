@@ -10,9 +10,10 @@ class Kawalan_Tanya extends Tanya
 		$this->_susun = ' ORDER BY utama,msic,nama';
 	}
 
-	private function cari($fe)
+	private function cari($fe, $cari, $apa)
 	{
-		return $carife = ( !isset($fe) ) ? '' : ' WHERE fe = "' . $fe . '"';
+		$carife = ( !isset($fe) ) ? '' : ' WHERE fe = "' . $fe . '"';
+		return $carife;
 	}
 	
 	private function dimana($carian)
