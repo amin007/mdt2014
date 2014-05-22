@@ -50,7 +50,7 @@ class Papar extends Kawal
 		$this->level = Sesi::get('levelPegawai');
     }
     
-    public function index($respon = 'semua',$item = 30, $ms = 1, $fe = null) 
+    public function index($respon = 'semua',$item = 30, $ms = 1, $fe = null, $cetak = null) 
     {
         /*
 		 * $jenisRespon = semua/selesai/janji/belum/tegar
@@ -68,18 +68,25 @@ class Papar extends Kawal
 			case "tegar" 	: $kesRespon = 'kesTegar'; $break;
 			default 		: $kesRespon = 'paparSemua';
 		}
+		$fe = ($this->level == 'kawal') ? $fe : $this->pengguna; # set nama fe
+        $bulanan = bulanan('kawalan','14'); # papar bulan dlm tahun semasa
+        # semak pembolehubah $bulanan
+        //echo '<pre>', print_r($bulanan, 1) . '</pre><br>';
+
         # setkan pembolehubah untuk $this->tanya
-            $medan = $this->medanRangka;
-			//$medan = $this->medanData;
+            $medanRangka = $this->medanRangka;
+			$medanData = $this->medanData;
+            $sv = $this->sv;
 
         # mula papar semua dalam $myTable
-        foreach ($this->jadualKawal as $key => $myTable)
+        foreach ($bulanan as $key => $myTable)
         {# mula ulang table
-			# setkan $medan = ($myTable=='') ? $medanRangka : $medanData;
-            # dapatkan bilangan jumlah rekod
-            $bilSemua = $this->tanya->kiraKes($myTable, $medan, $fe);
-            # tentukan bilangan mukasurat & bilangan jumlah rekod
-			// echo '$bilSemua:'.$bilSemua.', $item:'.$item.', $ms:'.$ms.'<br>';
+			// setkan $medan
+			$medan = ($myTable=='rangka14') ? $medanRangka : $medanData;
+            // dapatkan bilangan jumlah rekod
+            $bilSemua = $this->tanya->kiraKes($sv, $myTable, $medan, $fe);
+            // tentukan bilangan mukasurat & bilangan jumlah rekod
+			//echo '$bilSemua:'.$bilSemua.', $item:'.$item.', $ms:'.$ms.'<br>';
             $jum = pencamSqlLimit($bilSemua, $item, $ms);
             $this->papar->bilSemua[$myTable] = $bilSemua;
             # sql guna limit
@@ -96,7 +103,15 @@ class Papar extends Kawal
         $this->papar->pegawai = senarai_kakitangan();
         $this->papar->carian = 'semuajadual';
         # pergi papar kandungan
-        $this->papar->baca('kawalan/index', 1);
+     	// memilih antara papar dan cetak
+		if ($cetak == 'cetak') //echo 'cetak';
+			$this->papar->baca('kawalan/cetak', 0);
+		elseif ($cetak == 'papar') //echo 'papar';
+			$this->papar->baca('kawalan/index', 1);
+		else //echo 'ubah';
+			$this->papar->baca('kawalan/index', 0);
+		//*/
+
 		
     }
 
