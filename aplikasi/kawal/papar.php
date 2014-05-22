@@ -28,7 +28,7 @@ class Papar extends Kawal
         $this->papar->css = array(
             'bootstrap-datepicker.css',
             'bootstrap-editable.css');
-			
+/*			
         $this->medanRangka = 'newss,ssm,concat_ws("<br>",nama,operator) as nama,'
 			. 'fe,msic,sv,utama,respon R,' . "\r"
 			. 'concat_ws("<br>",alamat1,alamat2,poskod,ngdbbp) as alamat,' . "\r"
@@ -47,12 +47,13 @@ class Papar extends Kawal
 		$this->_folder = 'kawalan';
 		$this->pengguna = Sesi::get('namaPegawai');
 		$this->level = Sesi::get('levelPegawai');
+//*/		
     }
     
     public function index() 
 	{
 		$respon = 'semua'; $item = 30; $ms = 1; $fe = null; $cetak = null;
-		echo "$kesRespon | $item | $ms | $fe | $cetak <br>";
+		echo "$respon | $item | $ms | $fe | $cetak <br>";
 	}
 
 }
