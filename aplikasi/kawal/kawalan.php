@@ -2,7 +2,6 @@
 
 class Kawalan extends Kawal 
 {
-
     public function __construct() 
     {
         parent::__construct();
@@ -38,7 +37,7 @@ class Kawalan extends Kawal
 			. 'email,nota,msic08';
 			//. 'newss,msic,nama,utama,fe,terima,'
 			//. 'hasil,dptLain,web,stok,staf,gaji,outlet,sebab';
-		$this->medanData = 'newss,msic,nama,utama,fe,terima,'
+		$this->medanData = 'newss,msic,utama,nama,fe,terima,'
 			. ' format( (hasil + IFNULL(dptLain,0) ), 0 ) as dapat,'
 			//. '(hasil+COALESCE(dptLain,0)) as dapat2,'
 			. 'format(hasil,0) as hasil,format(dptlain,0) as dptlain,' . "\r"
@@ -74,7 +73,7 @@ class Kawalan extends Kawal
             $this->papar->bilSemua[$myTable] = $bilSemua;
             // sql guna limit
             $this->papar->cariApa[$myTable] = $this->tanya->
-            paparSemua($sv, $myTable, $medan, $fe, $jum);
+				paparSemua($sv, $myTable, $medan, $fe, $jum);
             // halaman
             $this->papar->halaman[$myTable] = halaman($jum);
         }// tamat ulang table
