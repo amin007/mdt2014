@@ -11,7 +11,7 @@ class Paparan_Tanya extends Tanya
 
 	private function cari($fe, $cari = null, $apa = null)
 	{
-		$carife = ( !isset($fe) ) ? ' WHERE $cari = $apa ' : ' WHERE fe = "' . $fe . '"';
+		$carife = ( !isset($fe) ) ? ' WHERE 1=1 ' : ' WHERE fe = "' . $fe . '"';
 		
 		return $carife;
 	}
