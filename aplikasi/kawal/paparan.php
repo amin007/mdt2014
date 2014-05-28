@@ -67,18 +67,18 @@ class Paparan extends Kawal
 		# set $jenisRespon
 		switch ($respon) 
 		{
-			case "semua" 	: $kesRespon = 'kesSemua'; $break;
-			case "selesai" 	: $kesRespon = 'kesSelesai'; $break;
-			case "janji" 	: $kesRespon = 'kesJanji'; $break;
-			case "belum" 	: $kesRespon = 'kesBelum'; $break;
-			case "tegar" 	: $kesRespon = 'kesTegar'; $break;
-			default 		: $kesRespon = 'paparSemua';
+			case "semua" 	: $kesRespon = 'kesSemua'; break;
+			case "selesai" 	: $kesRespon = 'kesSelesai'; break;
+			case "janji" 	: $kesRespon = 'kesJanji'; break;
+			case "belum" 	: $kesRespon = 'kesBelum'; break;
+			case "tegar" 	: $kesRespon = 'kesTegar'; break;
+			default 		: $kesRespon = 'paparSemua'; 
 		}
-		//echo "$kesRespon | $item | $ms | $fe | $cetak <br>";
+		//echo "$respon | $kesRespon | $item | $ms | \$fe=$fe | \$cetak=$cetak <br>";
 		
-		$fe = ($this->level == 'kawal') ? $fe : $this->pengguna; # set nama fe
+		//$fe = ($this->level == 'kawal') ? $fe : $this->pengguna; # set nama fe
         $bulanan = bulanan('kawalan','14'); # papar bulan dlm tahun semasa
-		$cari[] = array('fix'=>'x=','atau'=>'WHERE','medan'=>'fe','apa'=>$fe);
+		//$cari[] = array('fix'=>'x=','atau'=>'WHERE','medan'=>'fe','apa'=>$fe);
 		//$cari[] = array('fix'=>'khas','atau'=>'AND','medan'=>'daerah','apa'=>'dp_baru');
 
         # semak pembolehubah $bulanan
@@ -115,6 +115,7 @@ class Paparan extends Kawal
         $this->papar->pegawai = senarai_kakitangan();
         $this->papar->carian = 'semuajadual';
         # pergi papar kandungan
+		//$cetak = 'papar';
      	// memilih antara papar dan cetak
 		if ($cetak == 'cetak') //echo 'cetak';
 			$this->papar->baca('kawalan/cetak', 0);
