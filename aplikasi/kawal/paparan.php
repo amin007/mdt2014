@@ -83,7 +83,7 @@ class Paparan extends Kawal
 
         # semak pembolehubah $bulanan
         //echo '<pre>', print_r($bulanan, 1) . '</pre><br>';
-        echo '<pre>$cari=>', print_r($cari, 1) . '</pre><br>';
+        //echo '<pre>$cari=>', print_r($cari, 1) . '</pre><br>';
 		
         # setkan pembolehubah untuk $this->tanya
             $medanRangka = $this->medanRangka;
@@ -96,14 +96,14 @@ class Paparan extends Kawal
 			// setkan $medan
 			$medan = ($myTable=='rangka14') ? $medanRangka : $medanData;
             // dapatkan bilangan jumlah rekod
-            $bilSemua = $this->tanya->kiraKes($sv, $myTable, $medan, $fe);
+            $bilSemua = $this->tanya->kiraKes($sv . $myTable, $medan, $fe);
             // tentukan bilangan mukasurat & bilangan jumlah rekod
 			//echo '$bilSemua:'.$bilSemua.', $item:'.$item.', $ms:'.$ms.'<br>';
-            $jum = pencamSqlLimit($bilSemua, $item, $ms);
+            $jum = pencamSqlLimit($bilSemua, $item, $ms, 'msic,nama', null);
             $this->papar->bilSemua[$myTable] = $bilSemua;
             # sql guna limit
             $this->papar->cariApa[$myTable] = $this->tanya->
-				$kesRespon($myTable, $medan, $fe, $jum);
+				$kesRespon($sv . $myTable, $medan, $fe, $jum);
             # halaman
             $this->papar->halaman[$myTable] = halaman($jum);
         }# tamat ulang table
