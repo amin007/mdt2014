@@ -228,9 +228,9 @@ function senarai_kakitangan()
 function lihat($tab,$kini,$papar,$pegawai) 
 {    
     $selit = null;
-    $p = dpt_url(); // sepatutnya kawalan/semua/30/2/amin/
-    $item = ( !isset($p[2]) ) ? '20/' : $p[2] . '/'; //'30'; 
-    $ms = ( !isset($p[3]) ) ? '1/' : $p[3] . '/'; // '2';
+    $p = dpt_url(); // sepatutnya paparan/respon/semua/30/2/amin/
+    $item = ( !isset($p[3]) ) ? '20/' : $p[3] . '/'; //'30'; 
+    $ms = ( !isset($p[4]) ) ? '1/' : $p[4] . '/'; // '2';
     $url = URL . $papar . $item . $ms;
     $i = 1;
     
