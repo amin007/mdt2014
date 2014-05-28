@@ -51,7 +51,7 @@ $kini = ( !isset($this->kini) ) ? null : $this->kini;
 		<li class="dropdown submenu">		
 			<a href="<?php echo $url ?>paparan/respon/tegar/30">2.5. Kes Tegar</a>
 			<ul class="dropdown-menu submenu-show submenu-hide"><?php 
-			if ($level == 'kawal') lihat("\t\t\t",$kini,'paparan/respon/tegar/',$pegawai);?></ul>
+			if ($level == 'kawal') lihat("\t\t\t",$kini,'paparan/respon/tegar',$pegawai);?></ul>
 		</li>
 		<li class="dropdown submenu">
 			<a href="<?php echo $url ?>paparan/respon/utama/100/1/bbu/">2.6. Kes BBU</a>
