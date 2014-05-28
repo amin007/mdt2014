@@ -1,6 +1,6 @@
 <?php
 
-class Kawalan_Tanya extends Tanya 
+class Paparan_Tanya extends Tanya 
 {
 
 	public function __construct() 
