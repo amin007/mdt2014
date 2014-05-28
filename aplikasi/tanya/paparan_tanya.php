@@ -9,9 +9,9 @@ class Paparan_Tanya extends Tanya
 		$this->_susun = ' ORDER BY utama,msic,nama';
 	}
 
-	private function cari($fe, $cari, $apa)
+	private function cari($fe, $cari = null, $apa = null)
 	{
-		$carife = ( !isset($fe) ) ? ' WHERE 1=1 ' : ' WHERE fe = "' . $fe . '"';
+		$carife = ( !isset($fe) ) ? ' WHERE $cari = $apa ' : ' WHERE fe = "' . $fe . '"';
 		
 		return $carife;
 	}
@@ -108,12 +108,12 @@ class Paparan_Tanya extends Tanya
 		return $this->db->selectAll($sql);
 	}
 
-	public function kiraKes($sv, $myTable, $medan, $fe)
+	public function kiraKes($myTable, $medan, $fe)
 	{
 		$carife = ( !isset($fe) ) ? '' : ' WHERE fe = "' . $fe . '"';
 
-		$sql = 'SELECT * FROM ' 
-			 . $sv . $myTable . $carife . $this->_susun;
+		$sql = 'SELECT * FROM ' . $myTable 
+			 . $carife . $this->_susun;
 		
 		//echo htmlentities($sql) . '<br>';
 		$result = $this->db->rowCount($sql);
@@ -123,9 +123,9 @@ class Paparan_Tanya extends Tanya
 		return $result;
 	}
 
-	public function paparSemua($sv, $myTable, $medan, $fe, $jum)
+	public function paparSemua($myTable, $medan, $fe, $jum)
 	{
-		$sql = 'SELECT ' . $medan . ' FROM ' . $sv . $myTable . ' b ' 
+		$sql = 'SELECT ' . $medan . ' FROM ' . $myTable . ' b ' 
 			 . $this->cari($fe) . $this->_susun;
 		
 		//echo htmlentities($sql) . '<br>';
@@ -135,9 +135,9 @@ class Paparan_Tanya extends Tanya
 		return $result;
 	}
 
-	public function kesSemua($sv, $myTable, $medan, $fe, $jum)
+	public function kesSemua($myTable, $medan, $fe, $jum)
 	{
-		$sql = 'SELECT ' . $medan . ' FROM ' . $sv . $myTable . ' as b ' 
+		$sql = 'SELECT ' . $medan . ' FROM ' . $myTable . ' as b ' 
 			 . $this->cari($fe) . $this->_susun 
 			 . ' LIMIT ' . $jum['dari'] . ', ' . $jum['max'];
 
@@ -148,12 +148,12 @@ class Paparan_Tanya extends Tanya
 		return $result;
 	}
 
-	public function kesSelesai($sv, $myTable, $medan, $fe, $jum)
+	public function kesSelesai($myTable, $medan, $fe, $jum)
 	{
 		$a1 = ($myTable == 'rangka14') ?
 			' respon = "A1"' : ' terima is not null';
 
-		$sql = 'SELECT ' . $medan . ' FROM ' . $sv . $myTable . ' b ' 
+		$sql = 'SELECT ' . $medan . ' FROM ' . $myTable . ' b ' 
 			 . $this->cari($fe)	. $a1 . $this->_susun 
 			 . ' LIMIT ' . $jum['dari'] . ', ' . $jum['max'];
 
@@ -164,10 +164,10 @@ class Paparan_Tanya extends Tanya
 		return $result;
 	}
 	
-	public function kesJanji($sv, $myTable, $medan, $fe, $jum)
+	public function kesJanji($myTable, $medan, $fe, $jum)
 	{
-		$sql = 'SELECT ' . $medan . ' FROM ' . $sv . $myTable . ' b, `' 
-			 . $sv . 'rangka13` as c '
+		$sql = 'SELECT ' . $medan . ' FROM ' . $myTable . ' b, ' 
+			 . '`mdt_rangka14` as c '
 			 . $this->cari($fe)	
 			 . ' and b.newss = c.newss '
 			 . ' and (b.terima is null and c.respon != "A1") ' 
@@ -181,9 +181,9 @@ class Paparan_Tanya extends Tanya
 		return $result;
 	}
 
-	public function kesBelum($sv, $myTable, $medan, $fe, $jum)
+	public function kesBelum($myTable, $medan, $fe, $jum)
 	{
-		$sql = 'SELECT ' . $medan . ' FROM ' . $sv . $myTable . ' as b '
+		$sql = 'SELECT ' . $medan . ' FROM ' . $myTable . ' as b '
 			 . $this->cari($fe)	
 			 . ' and (terima is null' 
 			 . ' or terima like "0000%") '
@@ -197,9 +197,9 @@ class Paparan_Tanya extends Tanya
 		return $result;
 	}
 
-	public function kesTegar($sv, $myTable, $medan, $fe, $jum)
+	public function kesTegar($myTable, $medan, $fe, $jum)
 	{
-		$sql = 'SELECT ' . $medan . ' FROM ' . $sv . $myTable 
+		$sql = 'SELECT ' . $medan . ' FROM ' . $myTable 
 			 . $this->cari($fe)
 			 . ' and (`respon` not like "A1"' 
 			 . ' and `respon` not like "B%") '
@@ -230,7 +230,7 @@ class Paparan_Tanya extends Tanya
 		else $cariRespon = '';
 
 		$sql = 'SELECT ' . $medan . ' FROM ' . 	$myTable 
-			 . ' b, `mdt_rangka13` as c '
+			 . ' b, `mdt_rangka14` as c '
 			 . $cariUtama . $cariRespon . $cariFe;
 
 		//echo htmlentities($sql) . '<br>';
