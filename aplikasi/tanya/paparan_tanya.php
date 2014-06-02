@@ -6,7 +6,7 @@ class Paparan_Tanya extends Tanya
 	public function __construct() 
 	{
 		parent::__construct();
-		$this->_susun = ' ORDER BY utama,msic,nama';
+		$this->_susun = ' ORDER BY substring(msic,1,2) ASC, newss';
 	}
 
 	private function cari($fe, $cari = null, $apa = null)
