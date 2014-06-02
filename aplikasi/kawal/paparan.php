@@ -99,7 +99,7 @@ class Paparan extends Kawal
             $bilSemua = $this->tanya->kiraKes($sv . $myTable, $medan, $fe);
             // tentukan bilangan mukasurat & bilangan jumlah rekod
 			//echo '$bilSemua:'.$bilSemua.', $item:'.$item.', $ms:'.$ms.'<br>';
-            $jum = pencamSqlLimit($bilSemua, $item, $ms, 'msic,nama', null);
+            $jum = pencamSqlLimit($bilSemua, $item, $ms, 'msic ASC,nama', null);
             $this->papar->bilSemua[$myTable] = $bilSemua;
             # sql guna limit
             $this->papar->cariApa[$myTable] = $this->tanya->
