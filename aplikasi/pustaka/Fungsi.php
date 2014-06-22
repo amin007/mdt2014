@@ -62,7 +62,7 @@ function dpt_senarai($namajadual)
         'kodproduk_unitkuantiti');
     elseif ($namajadual=='syarikat')
     {
-        $t='13'; // tahun rujukan
+        $t='14'; // tahun rujukan
         $sv='mdt_'; // jenis penyiasatan
         $jadual = array($sv.'rangka'.$t,
         $sv.'jan'.$t, $sv.'feb'.$t, $sv.'mac'.$t, $sv.'apr'.$t, 
