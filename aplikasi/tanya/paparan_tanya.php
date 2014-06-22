@@ -258,7 +258,7 @@ class Paparan_Tanya extends Tanya
 		else $cariRespon = '';
 
 		$sql = 'SELECT ' . $medan . ' FROM ' . 	$myTable 
-			 . ' b, `mdt_rangka13` as c '
+			 . ' b, `mdt_rangka14` as c '
 			 . $cariUtama . $cariRespon . $cariFe
 			 . ' LIMIT ' . $jum['dari'] . ', ' . $jum['max'];
 
