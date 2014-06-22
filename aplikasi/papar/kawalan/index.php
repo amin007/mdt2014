@@ -82,7 +82,7 @@ for ($kira=0; $kira < count($row); $kira++)
 				'ubah' => URL . 'kawalan/ubah/' . $id,
 				//'ubah_p' => URL . 'prosesan/ubah/' . $id,
 				//'buang' => URL . 'prosesan/buang/' . $id,
-				'cetak' => URL . 'cetak-kes.php?cari='.$id.'&bln=' . $kira_jadual,
+				'cetak' => URL . 'cetak-kes.php?cari='.$id.'&bln=' . ($kira_jadual+1),
 				'banding' => URL . 'laporan_kes.php?cari='.$id.'&bln=' . $kira_jadual,
 				);
 
