@@ -45,6 +45,7 @@ class Paparan extends Kawal
 			. 'outlet,sebab';
 		$this->sv = 'mdt_';
 		$this->_folder = 'kawalan';
+		$this->jadualKawalan = bulanan('data_bulanan','14'); # papar bulan dlm tahun semasa
 		$this->pengguna = Sesi::get('namaPegawai');
 		$this->level = Sesi::get('levelPegawai');
 		
@@ -72,6 +73,7 @@ class Paparan extends Kawal
 			case "janji" 	: $kesRespon = 'kesJanji'; break;
 			case "belum" 	: $kesRespon = 'kesBelum'; break;
 			case "tegar" 	: $kesRespon = 'kesTegar'; break;
+			case "utama" 	: $kesRespon = 'kesUtama'; break;
 			default 		: $kesRespon = 'paparSemua'; 
 		}
 		//echo "$respon | $kesRespon | $item | $ms | \$fe=$fe | \$cetak=$cetak <br>";
@@ -135,16 +137,18 @@ class Paparan extends Kawal
 		 * $respon = null // set $respon = a1/xa1/tegar tiada
          */
 		$fe = ($this->level == 'kawal') ? $fe : $this->pengguna; # set nama fe
-        $bulanan = bulanan('data_bulanan','13'); # papar bulan dlm tahun semasa
-        # semak pembolehubah $bulanan
-        //echo '<pre>', print_r($bulanan, 1) . '</pre><br>';
 
         // setkan pembolehubah untuk $this->tanya
 					 //. 'format(b.hasil,0) as hasil,format(b.dptlain,0) as dptlain,' . "\r"
 					 //. 'format(b.stok,0) as stok,b.staf,format(b.gaji,0) as gaji,' . "\r"
 					 //. 'outlet,sebab';
             $medanRangka = $this->medanRangka;
-			$medanData = $this->medanData;
+			$medanData = 'c.newss,c.msic,c.utama,c.nama,c.fe,terima,'
+			. ' format( (hasil + IFNULL(dptLain,0) ), 0 ) as dapat,'
+			//. '(hasil+COALESCE(dptLain,0)) as dapat2,'
+			. 'format(hasil,0) as hasil,format(dptlain,0) as dptlain,' . "\r"
+			. 'format(stok,0) as stok,staf,format(gaji,0) as gaji,' . "\r"
+			. 'outlet,sebab';
             $sv = $this->sv;
 			$cari['utama'] = $utama;
 			$cari['respon'] = $respon;
@@ -156,10 +160,10 @@ class Paparan extends Kawal
 			echo ' kes utama ' . $utama . '| ';
 			echo ($respon==null)? '<br>' : ' respon ' . $respon . '<br>';
         // mula papar semua dalam $myTable
-        foreach ($this->jadualKawal as $key => $myTable)
+        foreach ($this->jadualKawalan as $key => $myTable)
         {// mula ulang table
 			// setkan $medan
-			$medan = ($myTable=='rangka13') ? $medanRangka : $medanData;
+			$medan = ($myTable=='rangka14') ? $medanRangka : $medanData;
             // dapatkan bilangan jumlah rekod
             $bilSemua = $this->tanya->kiraKesUtama($sv.$myTable, $medan, $cari);
             // tentukan bilangan mukasurat 
