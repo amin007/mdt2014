@@ -84,10 +84,10 @@ class Kawalan_Tanya extends Tanya
 				   $max = isset($carian['max'])   ? $carian['max']    : null;
 				
 				//echo "\$cari = $cari, \$key=$key <br>";
-				if ($kumpul!=null)  $susun = " GROUP BY concat('%',$kumpul,'%')\r";
+				if ($kumpul!=null)  $susun = " GROUP BY $kumpul\r";
 				elseif($order!=null)$susun = " ORDER BY $order\r";
-				elseif($dari!=null) $susun = " LIMIT $dari";	
-				elseif($max!=null)  $susun .= ",$max\r";
+				elseif($max!=null)  $susun .= ($dari==null) ?
+					" LIMIT $max\r" : " LIMIT $dari,$max\r";
 			}
 		endif;
 		
@@ -457,11 +457,11 @@ class Kawalan_Tanya extends Tanya
 				//if (isset($myTable)){$sebelum = (array_search($myTable,$bulan))-1;}
 				$sebelum = ($key - 1);
 				$msic='if(semasa.msic is null,semasa.msic,semasa.msic)';
-				$k1 = '<p align="right">';
-				$k2 = '</p>';
+				$k1 = ''; //'<p align="right">';
+				$k2 = ''; //'</p>';
 				//echo '<hr>'.$key.')Bandingan Antara Bulan ' . $myTable . ' Dan ' . $bulan[$sebelum];
 				// hasil+lain
-				$hasil="concat( '$k1', format(lepas.hasil,0),'<br>',format(semasa.hasil,0),'$k2' ) as `hasil`";
+				$hasil="concat('$k1',format(lepas.hasil,0),'<br>',format(semasa.hasil,0),'$k2' ) as `hasil`";
 				$dptLain="concat( format(lepas.dptLain,0),'<br>',format(semasa.dptLain,0) ) as `dptLain`";
 				$peratus="format((((semasa.hasil-lepas.hasil)/lepas.hasil)*100),2)";
 				$jumSemasa = 'format(semasa.hasil+semasa.dptLain, 0)';
@@ -487,6 +487,7 @@ class Kawalan_Tanya extends Tanya
 					 . "AND semasa.$cari='$apa'\r";
 				////////////////////////////////////////////////////////	
 					//echo '<pre>$sql:'; print_r($sql) . '</pre><hr>';
+					//echo '<pre>$sql:'; htmlentities($sql) . '</pre><hr>';
 					$data['Kawal'][] = $this->db->select($sql);
 			}
 			elseif (in_array($key,array(0)))
@@ -494,6 +495,7 @@ class Kawalan_Tanya extends Tanya
 				$sql = "\rSELECT * FROM `$myTable` WHERE $cari='$apa'\r";
 								
 				//echo '<pre>$sql:'; print_r($sql) . '</pre><hr>';
+				//echo '<pre>$sql:'; htmlentities($sql) . '</pre><hr>';
 				$data['Rangka'] = $this->db->selectAll($sql);
 			}// tamat if ($key != 0 || $key != 1)
 		}// tamat ulang table
