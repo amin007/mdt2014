@@ -451,18 +451,19 @@ class Kawalan_Tanya extends Tanya
 	{
 		foreach ($bulan as $key => $myTable)
 		{// mula ulang table
+			# untuk sql biasa				
 			if (!in_array($key,array(0,1)))
 			{
 				////////////////////////////////////////////////////////
 				//if (isset($myTable)){$sebelum = (array_search($myTable,$bulan))-1;}
 				$sebelum = ($key - 1);
 				$msic='if(semasa.msic is null,semasa.msic,semasa.msic)';
-				$k1 = ''; //'<p align="right">';
-				$k2 = ''; //'</p>';
+				$k1 = '<p align="right">';
+				$k2 = '</p>';
 				//echo '<hr>'.$key.')Bandingan Antara Bulan ' . $myTable . ' Dan ' . $bulan[$sebelum];
 				// hasil+lain
-				$hasil="concat('$k1',format(lepas.hasil,0),'<br>',format(semasa.hasil,0),'$k2' ) as `hasil`";
-				$dptLain="concat( format(lepas.dptLain,0),'<br>',format(semasa.dptLain,0) ) as `dptLain`";
+				$hasil="concat( '$k1', format(lepas.hasil,0),'|',format(semasa.hasil,0),'$k2' ) as `hasil`";
+				$dptLain="concat( format(lepas.dptLain,0),'|',format(semasa.dptLain,0) ) as `dptLain`";
 				$peratus="format((((semasa.hasil-lepas.hasil)/lepas.hasil)*100),2)";
 				$jumSemasa = 'format(semasa.hasil+semasa.dptLain, 0)';
 				$jumLepas = 'format(lepas.hasil+lepas.dptLain, 0)';
@@ -478,16 +479,15 @@ class Kawalan_Tanya extends Tanya
 				//sql
 				$sql = "SELECT semasa.newss,semasa.nama,$msic msic,semasa.utama,semasa.fe,\r"
 					 . "$hasil,\r$dptLain,\r$peratus as `peratus`,\r"
-					 . "concat($jumLepas,'<br>',$jumSemasa) as `Hasil Semua`,\r$jumlah as peratus2,"
-					 . "concat($gajilepas,'<br>',$gajisemasa) as gaji,\r$gajiperatus as `gaji%`,\r"
-					 . "concat($staflepas,'<br>',$stafsemasa) as staf,\r$stafperatus as `staf%`,\r"
+					 . "concat($jumLepas,'|',$jumSemasa) as `Hasil Semua`,\r$jumlah as peratus2,"
+					 . "concat($gajilepas,'|',$gajisemasa) as gaji,\r$gajiperatus as `gaji%`,\r"
+					 . "concat($staflepas,'|',$stafsemasa) as staf,\r$stafperatus as `staf%`,\r"
 					 . "semasa.sebab, substring('$myTable', 5, 5) as bulan\r"
 					 . "FROM " . $bulan[$sebelum] . " lepas, $myTable semasa\r"
 					 . "WHERE lepas.newss=semasa.newss "
 					 . "AND semasa.$cari='$apa'\r";
 				////////////////////////////////////////////////////////	
 					//echo '<pre>$sql:'; print_r($sql) . '</pre><hr>';
-					//echo '<pre>$sql:'; htmlentities($sql) . '</pre><hr>';
 					$data['Kawal'][] = $this->db->select($sql);
 			}
 			elseif (in_array($key,array(0)))
@@ -495,15 +495,38 @@ class Kawalan_Tanya extends Tanya
 				$sql = "\rSELECT * FROM `$myTable` WHERE $cari='$apa'\r";
 								
 				//echo '<pre>$sql:'; print_r($sql) . '</pre><hr>';
-				//echo '<pre>$sql:'; htmlentities($sql) . '</pre><hr>';
 				$data['Rangka'] = $this->db->selectAll($sql);
 			}// tamat if ($key != 0 || $key != 1)
+		/////////////////////////////////////////////////////////////////////
+			if ($key!='0')
+			{
+				$cantum[$key] = "SELECT newss,substring('$myTable', 5, 5) as bulan,"
+					 . ' nama,msic,terima,format(hasil,0) hasil,format(dptLain,0) dptLain,'
+					 . 'web,format(stok,0) stok,format(staf,0) staf,format(gaji,0) gaji,sebab,outlet'
+					 . "\r FROM $myTable WHERE $cari='$apa'";
+				$cantum2[$key] = "SELECT newss,substring('$myTable', 5, 5) as bulan,"
+					 . ' nama,msic,terima,hasil,dptLain,'
+					 . 'web,stok,staf,gaji,sebab,outlet'
+					 . "\r FROM $myTable WHERE $cari='$apa'";
+			}
+			
 		}// tamat ulang table
+		$cantumSql = implode("\rUNION\r", $cantum);
+		$cantumSql2 = implode("\rUNION\r", $cantum2);
+		$sql3 = $cantumSql . "\rUNION\r\r"
+			  . 'SELECT newss,\'JUM\' as bulan,nama,msic,terima,format(sum(hasil),0) hasil,format(sum(dptLain),0),web,'
+			  . 'format(sum(stok),0) stok,format(sum(staf),0) staf,format(sum(gaji),0) gaji, sebab, outlet'
+			  . "\r FROM ($cantumSql2) as JUMLAH \rUNION\r\r"
+			  . 'SELECT newss,\'PURATA\' as bulan,nama,msic,terima,format(sum(hasil)/12,0) hasil,format(sum(dptLain)/12,0),web,'
+			  . 'format(sum(stok)/12,0) stok,format(sum(staf)/12,0) staf,format(sum(gaji)/12,0) gaji, sebab, outlet'
+			  . "\r FROM ($cantumSql2) as PURATA";
+		//echo '<pre>$sql3:'; print_r($sql3) . '</pre><hr>';
+		
+		$data['Papar'] = $this->db->selectAll($sql3);
 		//echo '<pre>$data:'; print_r($data) . '</pre>';
 		//return $this->db->selectAll($sql);
 		return $data;
 	}	
-	
 	public function xhrInsert() 
 	{
 		$text = $_POST['text'];
