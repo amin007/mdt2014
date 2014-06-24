@@ -128,7 +128,7 @@ class Paparan extends Kawal
 		//*/
     }
 
-    public function utama($item = 30, $ms = 1, $utama = null, $respon = null, $fe = null) 
+    public function utama($item = 30, $ms = 1, $utama = null, $fe = null, $respon = null) 
     {    
         /*
          * $item = 30 // set bil. data dalam 1 muka surat
@@ -139,19 +139,16 @@ class Paparan extends Kawal
 		$fe = ($this->level == 'kawal') ? $fe : $this->pengguna; # set nama fe
 
         // setkan pembolehubah untuk $this->tanya
-					 //. 'format(b.hasil,0) as hasil,format(b.dptlain,0) as dptlain,' . "\r"
-					 //. 'format(b.stok,0) as stok,b.staf,format(b.gaji,0) as gaji,' . "\r"
-					 //. 'outlet,sebab';
             $medanRangka = $this->medanRangka;
 			$medanData = 'c.newss,c.msic,c.utama,c.nama,c.fe,terima,'
-			. ' format( (hasil + IFNULL(dptLain,0) ), 0 ) as dapat,'
-			//. '(hasil+COALESCE(dptLain,0)) as dapat2,'
-			. 'format(hasil,0) as hasil,format(dptlain,0) as dptlain,' . "\r"
-			. 'format(stok,0) as stok,staf,format(gaji,0) as gaji,' . "\r"
-			. 'outlet,sebab';
+				. ' format( (hasil + IFNULL(dptLain,0) ), 0 ) as dapat,'
+				//. '(hasil+COALESCE(dptLain,0)) as dapat2,'
+				. 'format(hasil,0) as hasil,format(dptlain,0) as dptlain,' . "\r"
+				. 'format(stok,0) as stok,staf,format(gaji,0) as gaji,' . "\r"
+				. 'outlet,sebab';
             $sv = $this->sv;
 			$cari['utama'] = $utama;
-			$cari['respon'] = $respon;
+			//$cari['respon'] = $respon;
 			$cari['fe'] = $fe;
 			
 		// paparkan pembolehubah
@@ -166,8 +163,6 @@ class Paparan extends Kawal
 			$medan = ($myTable=='rangka14') ? $medanRangka : $medanData;
             // dapatkan bilangan jumlah rekod
             $bilSemua = $this->tanya->kiraKesUtama($sv.$myTable, $medan, $cari);
-            // tentukan bilangan mukasurat 
-            // bilangan jumlah rekod
     		//echo '$bilSemua:'.$bilSemua.', $item:'.$item.', $ms:'.$ms.'<br>';
             $jum = pencamSqlLimit($bilSemua, $item, $ms, null);
             $this->papar->bilSemua[$myTable] = $bilSemua;
