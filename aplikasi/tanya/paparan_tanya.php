@@ -260,6 +260,7 @@ class Paparan_Tanya extends Tanya
 		$sql = 'SELECT ' . $medan . ' FROM ' . 	$myTable 
 			 . ' b, `mdt_rangka14` as c '
 			 . $cariUtama . $cariRespon . $cariFe
+			 . ' ORDER BY fe,nama ASC'
 			 . ' LIMIT ' . $jum['dari'] . ', ' . $jum['max'];
 
 		//echo htmlentities($sql) . '<br>';
