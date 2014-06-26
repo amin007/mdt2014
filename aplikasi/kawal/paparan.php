@@ -136,7 +136,7 @@ class Paparan extends Kawal
          * $utama = null // set $utama = BBU/SBU tiada
 		 * $respon = null // set $respon = a1/xa1/tegar tiada
          */
-		$fe = ($this->level == 'kawal') ? $fe : $this->pengguna; # set nama fe
+		//$fe = ($this->level == 'kawal') ? $fe : $this->pengguna; # set nama fe
 
         // setkan pembolehubah untuk $this->tanya
             $medanRangka = $this->medanRangka;
@@ -155,7 +155,8 @@ class Paparan extends Kawal
 			//echo ' item ' . $item . '<br>';
 			//echo ' bil muka surat ' . $ms . '<br>';
 			echo ' kes utama ' . $utama . '| ';
-			echo ($respon==null)? '<br>' : ' respon ' . $respon . '<br>';
+			echo ($respon==null)? '' : ' respon ' . $respon . '|';
+			//echo ($fe==null)? '<br>' : ' fe ' . $fe . '<br>';
         // mula papar semua dalam $myTable
         foreach ($this->jadualKawalan as $key => $myTable)
         {// mula ulang table
