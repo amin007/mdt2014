@@ -372,36 +372,18 @@ foreach ($this->kesID as $myTable => $row)
 					) . $beza . '%' . $jualan;
 		
 				echo ($kunci=='dpt') ? 
-					( $myTable=='jan13' ?
+					( $myTable=='jan14' ?
 						"\n" . '<td align="center" colspan="3">&nbsp;</td>'
 						:
-						"\n" . '<td align="center" colspan="3">' 
-						. $sebab . '</td>'
+						"\n" . '<td align="center" colspan="3">' . $sebab . '</td>'
 					)
 					: "\n" . '<td align="center">' 
 					. ($perbezaan==null? null : $perbezaan . '%' ) 
 					. '</td>';	
 			}
 		echo "\n" . '<td align="center">' . $pekerja . '</td>';	
-		//echo "\n" . '<td align="center">&nbsp;</td>';
-?>
-<td align="center">	
-<form class="form">
-	<div class="control-group">
-		<div class="controls">
-			<div class="input-prepend input-append">
-				<span class="add-on">$</span>
-				<input class="span1" size="2" type="text">
-				<span class="add-on">.00</span>
-			</div>
-		</div>
-	</div>
-</form>
-</td>
-<?php
+		echo "\n" . '<td align="center">&nbsp;</td>';
 		echo "\r" . '</tr>';
-?>
-<?php
     } 
 #-----------------------------------------------------------------
 }// tamat ulang $row
@@ -412,8 +394,6 @@ foreach ($this->kesID as $myTable => $row)
 <hr>
 
 <?php } // $this->carian=='sidap' - tamat 
-/*
-*/
 // fungsi papar data
 function papar_data($f, $data)
 {
