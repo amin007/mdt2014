@@ -517,6 +517,8 @@ class Kawalan extends Kawal
 						$posmen[$myTable]['terima'] = null;
 						//$posmen[$myTable]['hantar'] = null;
 					}
+					elseif ( in_array($kekunci,array('hasil','dptLain','web','stok','staf','gaji')) )
+						$posmen[$myTable][$kekunci]= str_replace( ',', '', bersih($papar) ); // buang koma
 					elseif ( in_array($kekunci,array('fe','email')) )
 						$posmen[$myTable][$kekunci]=strtolower(bersih($papar)); // huruf kecil
 					elseif ( in_array($kekunci,array('respon')) )
@@ -548,7 +550,7 @@ class Kawalan extends Kawal
         
         //$this->papar->baca('kawalan/ubah/' . $dataID);
         header('location: ' . URL . 'kawalan/ubah/' . $dataID);
-        
+        //*/
     }
 
 	public function tambah($cariID = null) 
