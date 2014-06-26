@@ -246,7 +246,8 @@ class Paparan_Tanya extends Tanya
 		$cariUtama = ( !isset($cari['utama']) ) ? 
 		'' : ' WHERE b.newss=c.newss and b.utama = "' . $cari['utama'] . '"';
 		$respon = ( !isset($cari['respon']) ) ? null : $cari['respon'] ;
-		$cariFe = ( !isset($fe) ) ? '' : ' and b.fe = "' . $fe . '"';
+		$cariFe = ( !isset($cari['fe']) ) ? '' : ' and b.fe = "' . $cari['fe'] . '"';
+		//echo ' cariFe = ' . $cariFe . '<br>';
 		$AN=array('A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12','A13');
 		
 		if  ($respon=='a1')
@@ -260,7 +261,7 @@ class Paparan_Tanya extends Tanya
 		$sql = 'SELECT ' . $medan . ' FROM ' . 	$myTable 
 			 . ' b, `mdt_rangka14` as c '
 			 . $cariUtama . $cariRespon . $cariFe
-			 . ' ORDER BY fe,nama ASC'
+			 . ' ORDER BY fe,msic,nama ASC'
 			 . ' LIMIT ' . $jum['dari'] . ', ' . $jum['max'];
 
 		//echo htmlentities($sql) . '<br>';
