@@ -31,27 +31,27 @@ $kini = ( !isset($this->kini) ) ? null : $this->kini;
 		<li class="dropdown submenu">
 			<a href="<?php echo $url ?>paparan/respon/semua/30">2.1. Kes Semua</a>
 			<ul class="dropdown-menu submenu-show submenu-hide"><?php 
-			if ($level == 'kawal') lihat("\t\t\t",$kini,'paparan/respon/semua/',$pegawai); ?></ul>
+			if ($level == 'kawal') lihat("\n\t\t\t",$kini,'paparan/respon/semua/',$pegawai); ?></ul>
 		</li>
 		<li class="dropdown submenu">
 			<a href="<?php echo $url ?>paparan/respon/selesai/30">2.2. Kes A1</a>
 			<ul class="dropdown-menu submenu-show submenu-hide"><?php 
-			if ($level == 'kawal') lihat("\t\t\t",$kini,'paparan/respon/selesai/',$pegawai);?></ul>
+			if ($level == 'kawal') lihat("\n\t\t\t",$kini,'paparan/respon/selesai/',$pegawai);?></ul>
 		</li>
 		<li class="dropdown submenu">		
 			<a href="<?php echo $url ?>paparan/respon/janji/30">2.3. Kes Janji</a>
 			<ul class="dropdown-menu submenu-show submenu-hide"><?php 
-			if ($level == 'kawal') lihat("\t\t\t",$kini,'paparan/respon/janji/',$pegawai);?></ul>
+			if ($level == 'kawal') lihat("\n\t\t\t",$kini,'paparan/respon/janji/',$pegawai);?></ul>
 		</li>
 		<li class="dropdown submenu">		
 			<a href="<?php echo $url ?>paparan/respon/belum/30">2.4. Kes Belum A1</a>
 			<ul class="dropdown-menu submenu-show submenu-hide"><?php 
-			if ($level == 'kawal') lihat("\t\t\t",$kini,'paparan/respon/belum/',$pegawai);?></ul>
+			if ($level == 'kawal') lihat("\n\t\t\t",$kini,'paparan/respon/belum/',$pegawai);?></ul>
 		</li>
 		<li class="dropdown submenu">		
 			<a href="<?php echo $url ?>paparan/respon/tegar/30">2.5. Kes Tegar</a>
 			<ul class="dropdown-menu submenu-show submenu-hide"><?php 
-			if ($level == 'kawal') lihat("\t\t\t",$kini,'paparan/respon/tegar',$pegawai);?></ul>
+			if ($level == 'kawal') lihat("\n\t\t\t",$kini,'paparan/respon/tegar',$pegawai);?></ul>
 		</li>
 		<li class="dropdown submenu">
 			<a href="<?php echo $url ?>paparan/respon/utama/100/1/bbu/">2.6. Kes BBU</a>
@@ -113,12 +113,12 @@ $kini = ( !isset($this->kini) ) ? null : $this->kini;
 		<li class="dropdown submenu">
 			<a href="<?php echo $url ?>bbu/a1/30">A1</a>
 			<ul class="dropdown-menu submenu-show submenu-hide"><?php
-			lihat("\t\t\t",$kini,'bbu/a1/',$pegawai); ?></ul>
+			lihat("\n\t\t\t",$kini,'bbu/a1/',$pegawai); ?></ul>
 		</li>
 		<li class="dropdown submenu">
 			<a href="<?php echo $url ?>bbu/xa1/30">XA1</a>
 			<ul class="dropdown-menu submenu-show submenu-hide"><?php
-			lihat("\t\t\t",$kini,'bbu/xa1/',$pegawai); ?></ul>
+			lihat("\n\t\t\t",$kini,'bbu/xa1/',$pegawai); ?></ul>
 		</li>
 		</ul>
 	</li>
@@ -128,12 +128,12 @@ $kini = ( !isset($this->kini) ) ? null : $this->kini;
 		<li class="dropdown submenu">
 			<a href="<?php echo $url ?>sbu/a1/30">A1</a>
 			<ul class="dropdown-menu submenu-show submenu-hide"><?php 
-			lihat("\t\t\t",$kini,'sbu/a1/',$pegawai); ?></ul>
+			lihat("\n\t\t\t",$kini,'sbu/a1/',$pegawai); ?></ul>
 		</li>
 		<li class="dropdown submenu">
 			<a href="<?php echo $url ?>sbu/xa1/30">XA1</a>
 			<ul class="dropdown-menu submenu-show submenu-hide"><?php 
-			lihat("\t\t\t",$kini,'sbu/xa1/',$pegawai); ?></ul>
+			lihat("\n\t\t\t",$kini,'sbu/xa1/',$pegawai); ?></ul>
 		</li>
 		</ul>
 	</li>
