@@ -37,8 +37,13 @@ class Paparan extends Kawal
 			. 'email,nota,msic08';
 			//. 'newss,msic,nama,utama,fe,terima,'
 			//. 'hasil,dptLain,web,stok,staf,gaji,outlet,sebab';
-		$this->medanData = 'newss,msic,utama,nama,fe,terima,'
-			. ' format( (hasil + IFNULL(dptLain,0) ), 0 ) as dapat,'
+		$this->medanData = 'newss,utama,msic,nama,fe,'
+			. 'concat_ws("|","<input type=\"checkbox\">",'
+			. 'concat("hasil=",(hasil + IFNULL(dptLain,0)) ),' // hasil
+			. 'concat("staf=",(staf) ),' // staf
+			. 'concat("gaji=",(gaji) )' // gaji
+			. ' )as `5p`,terima,'
+			//. ' format( (hasil + IFNULL(dptLain,0) ), 0 ) as dapat,'
 			//. '(hasil+COALESCE(dptLain,0)) as dapat2,'
 			. 'format(hasil,0) as hasil,format(dptlain,0) as dptlain,' . "\r"
 			. 'format(stok,0) as stok,staf,format(gaji,0) as gaji,' . "\r"
@@ -101,7 +106,7 @@ class Paparan extends Kawal
             $bilSemua = $this->tanya->kiraKes($sv . $myTable, $medan, $fe);
             // tentukan bilangan mukasurat & bilangan jumlah rekod
 			//echo '$bilSemua:'.$bilSemua.', $item:'.$item.', $ms:'.$ms.'<br>';
-            $jum = pencamSqlLimit($bilSemua, $item, $ms, 'msic ASC,nama', null);
+            $jum = pencamSqlLimit($bilSemua, $item, $ms, 'utama,msic,nama', null);
             $this->papar->bilSemua[$myTable] = $bilSemua;
             # sql guna limit
             $this->papar->cariApa[$myTable] = $this->tanya->
