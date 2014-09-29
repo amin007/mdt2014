@@ -145,11 +145,16 @@ class Paparan extends Kawal
 
         // setkan pembolehubah untuk $this->tanya
             $medanRangka = $this->medanRangka;
-			$medanData = 'c.newss,c.msic,c.utama,c.nama,c.fe,terima,'
-				. ' format( (hasil + IFNULL(dptLain,0) ), 0 ) as dapat,'
+			$medanData = 'c.newss,c.msic,c.utama,c.nama,c.fe,'
+				. 'concat_ws("","<input type=\"checkbox\">",'
+				. 'concat("hasil=",(b.hasil + IFNULL(b.dptLain,0)) ),' // hasil
+				. 'concat("|staf=",(b.staf) ),' // staf
+				. 'concat("|gaji=",(b.gaji) )' // gaji
+				. ' )as `5p`,terima,'			
+				. ' format( (b.hasil + IFNULL(b.dptLain,0) ), 0 ) as dapat,'
 				//. '(hasil+COALESCE(dptLain,0)) as dapat2,'
-				. 'format(hasil,0) as hasil,format(dptlain,0) as dptlain,' . "\r"
-				. 'format(stok,0) as stok,staf,format(gaji,0) as gaji,' . "\r"
+				. 'format(b.hasil,0) as hasil,format(b.dptlain,0) as dptlain,' . "\r"
+				. 'format(b.stok,0) as stok,staf,format(b.gaji,0) as gaji,' . "\r"
 				. 'outlet,sebab';
             $sv = $this->sv;
 			$cari['utama'] = $utama;
