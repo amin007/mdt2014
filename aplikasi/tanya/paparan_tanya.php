@@ -6,7 +6,8 @@ class Paparan_Tanya extends Tanya
 	public function __construct() 
 	{
 		parent::__construct();
-		$this->_susun = ' ORDER BY substring(msic,1,2) ASC, newss';
+		//$this->_susun = ' ORDER BY substring(msic,1,2) ASC, newss';
+		$this->_susun = ' ORDER BY newss';
 	}
 
 	private function cari($fe, $cari = null, $apa = null)
@@ -261,10 +262,11 @@ class Paparan_Tanya extends Tanya
 		$sql = 'SELECT ' . $medan . ' FROM ' . 	$myTable 
 			 . ' b, `mdt_rangka14` as c '
 			 . $cariUtama . $cariRespon . $cariFe
-			 . ' ORDER BY fe,msic,nama ASC'
+			 //. ' ORDER BY fe,msic,nama ASC'
+			 . $this->_susun
 			 . ' LIMIT ' . $jum['dari'] . ', ' . $jum['max'];
 
-		//echo htmlentities($sql) . '<br>';
+		echo htmlentities($sql) . '<br>';
 		$result = $this->db->selectAll($sql);
 		//echo json_encode($result);
 		
