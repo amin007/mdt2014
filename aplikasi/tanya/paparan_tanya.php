@@ -6,8 +6,9 @@ class Paparan_Tanya extends Tanya
 	public function __construct() 
 	{
 		parent::__construct();
-		//$this->_susun = ' ORDER BY substring(msic,1,2) ASC, newss';
-		$this->_susun = ' ORDER BY newss';
+		$this->_susun = ' ORDER BY substring(msic,1,2) ASC, newss';
+		$this->_susunUtama = ' ORDER BY substring(c.msic,1,2) ASC, c.newss';
+		//$this->_susun = ' ORDER BY newss';
 	}
 
 	private function cari($fe, $cari = null, $apa = null)
@@ -15,6 +16,42 @@ class Paparan_Tanya extends Tanya
 		$carife = ( !isset($fe) ) ? ' WHERE 1=1 ' : ' WHERE fe = "' . $fe . '"';
 		
 		return $carife;
+	}
+	
+	private function jika($atau, $medan, $fix, $cariApa)
+	{
+		if ($cariApa==null) 
+			$where .= " $atau`$medan` is null\r";
+		elseif($fix=='xnull')
+			$where .= " $atau`$medan` is not null \r";
+		elseif($fix=='x=')
+			$where .= " $atau`$medan` = '$cariApa'\r";
+		elseif($fix=='x!=')
+			$where .= " $atau`$medan` != '$cariApa'\r";
+		elseif($fix=='like')
+			$where .= " $atau`$medan` like '%$cariApa%'\r";	
+		elseif($fix=='xlike')
+			$where .= " $atau`$medan` not like '%$cariApa%'\r";	
+		elseif($fix=='like%')
+			$where .= " $atau`$medan` like '$cariApa%'\r";	
+		elseif($fix=='xlike%')
+			$where .= " $atau`$medan` not like '$cariApa%'\r";	
+		elseif($fix=='%like')
+			$where .= " $atau`$medan` like '%$cariApa'\r";	
+		elseif($fix=='x%like')
+			$where .= " $atau`$medan` not like '%$cariApa'\r";	
+		elseif($fix=='xin')
+			$where .= " $atau`$medan` not in $cariApa\r";				
+		elseif($fix=='khas')
+			$where .= " $atau`$medan` not like $cariApa\r";	
+		elseif($fix=='khas2')
+			$where .= " $atau`$medan` REGEXP CONCAT('(^| )','',$cariApa)\r";	
+		elseif($fix=='xkhas2')
+			$where .= " $atau`$medan` NOT REGEXP CONCAT('(^| )','',$cariApa)\r";	
+		elseif($fix=='khas3')
+			$where .= " $atau`$medan` REGEXP CONCAT('[[:<:]]',$cariApa,'[[:>:]]')\r";	
+		elseif($fix=='xkhas3')
+			$where .= " $atau`$medan` NOT REGEXP CONCAT('[[:<:]]',$cariApa,'[[:>:]]')\r";	
 	}
 	
 	private function dimana($carian)
@@ -31,39 +68,7 @@ class Paparan_Tanya extends Tanya
 				    $fix = isset($carian[$key]['fix'])   ? $carian[$key]['fix']        : null;			
 				$cariApa = isset($carian[$key]['apa'])   ? $carian[$key]['apa']        : null;
 				//echo "\r$key => ($fix) $atau $medan = '$apa'  ";
-				
-				if ($cariApa==null) 
-					$where .= " $atau`$medan` is null\r";
-				elseif($fix=='xnull')
-					$where .= " $atau`$medan` is not null \r";
-				elseif($fix=='x=')
-					$where .= " $atau`$medan` = '$cariApa'\r";
-				elseif($fix=='x!=')
-					$where .= " $atau`$medan` != '$cariApa'\r";
-				elseif($fix=='like')
-					$where .= " $atau`$medan` like '%$cariApa%'\r";	
-				elseif($fix=='xlike')
-					$where .= " $atau`$medan` not like '%$cariApa%'\r";	
-				elseif($fix=='like%')
-					$where .= " $atau`$medan` like '$cariApa%'\r";	
-				elseif($fix=='xlike%')
-					$where .= " $atau`$medan` not like '$cariApa%'\r";	
-				elseif($fix=='%like')
-					$where .= " $atau`$medan` like '%$cariApa'\r";	
-				elseif($fix=='x%like')
-					$where .= " $atau`$medan` not like '%$cariApa'\r";	
-				elseif($fix=='xin')
-					$where .= " $atau`$medan` not in $cariApa\r";						
-				elseif($fix=='khas')
-					$where .= " $atau`$medan` not like $cariApa\r";	
-				elseif($fix=='khas2')
-					$where .= " $atau`$medan` REGEXP CONCAT('(^| )','',$cariApa)\r";	
-				elseif($fix=='xkhas2')
-					$where .= " $atau`$medan` NOT REGEXP CONCAT('(^| )','',$cariApa)\r";	
-				elseif($fix=='khas3')
-					$where .= " $atau`$medan` REGEXP CONCAT('[[:<:]]',$cariApa,'[[:>:]]')\r";	
-				elseif($fix=='xkhas3')
-					$where .= " $atau`$medan` NOT REGEXP CONCAT('[[:<:]]',$cariApa,'[[:>:]]')\r";	
+				$this->jika($atau, $medan, $fix, $cariApa);
 			}
 		endif;
 	
@@ -259,14 +264,13 @@ class Paparan_Tanya extends Tanya
 			$cariRespon = " AND(`c.respon` IN ('" . implode("','",$AN) . "')) \r";
 		else $cariRespon = '';
 
-		$sql = 'SELECT ' . $medan . ' FROM ' . 	$myTable 
+		$sql = '/*' . $myTable . '*/SELECT ' . $medan . ' FROM ' . $myTable 
 			 . ' b, `mdt_rangka14` as c '
 			 . $cariUtama . $cariRespon . $cariFe
-			 //. ' ORDER BY fe,msic,nama ASC'
-			 . $this->_susun
+			 . $this->_susunUtama
 			 . ' LIMIT ' . $jum['dari'] . ', ' . $jum['max'];
 
-		echo htmlentities($sql) . '<br>';
+		//echo htmlentities($sql) . '<br>';
 		$result = $this->db->selectAll($sql);
 		//echo json_encode($result);
 		
