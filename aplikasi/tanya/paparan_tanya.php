@@ -18,40 +18,60 @@ class Paparan_Tanya extends Tanya
 		return $carife;
 	}
 	
-	private function jika($atau, $medan, $fix, $cariApa)
+	private function jika($atau,$medan,$fix,$cariApa,$akhir)
 	{
-		if ($cariApa==null) 
-			$where .= " $atau`$medan` is null\r";
+		$dimana = null;
+		if($atau==null) $dimana .= null;
+		elseif($cariApa==null )
+			$dimana .= ($fix=='x!=') ? " $atau`$medan` !='' $akhir\r"
+					: " $atau`$medan` is null $akhir\r";
 		elseif($fix=='xnull')
-			$where .= " $atau`$medan` is not null \r";
+			$dimana .= " $atau`$medan` is not null  $akhir\r";
 		elseif($fix=='x=')
-			$where .= " $atau`$medan` = '$cariApa'\r";
+			$dimana .= " $atau`$medan` = '$cariApa' $akhir\r";
 		elseif($fix=='x!=')
-			$where .= " $atau`$medan` != '$cariApa'\r";
+			$dimana .= " $atau`$medan` != '$cariApa' $akhir\r";
 		elseif($fix=='like')
-			$where .= " $atau`$medan` like '%$cariApa%'\r";	
+			$dimana .= " $atau`$medan` like '$cariApa' $akhir\r";
 		elseif($fix=='xlike')
-			$where .= " $atau`$medan` not like '%$cariApa%'\r";	
+			$dimana .= " $atau`$medan` not like '$cariApa' $akhir\r";	
+		elseif($fix=='%like%')
+			$dimana .= " $atau`$medan` like '%$cariApa%' $akhir\r";	
+		elseif($fix=='x%like%')
+			$dimana .= " $atau`$medan` not like '%$cariApa%' $akhir\r";	
 		elseif($fix=='like%')
-			$where .= " $atau`$medan` like '$cariApa%'\r";	
+			$dimana .= " $atau`$medan` like '$cariApa%' $akhir\r";	
 		elseif($fix=='xlike%')
-			$where .= " $atau`$medan` not like '$cariApa%'\r";	
+			$dimana .= " $atau`$medan` not like '$cariApa%' $akhir\r";	
 		elseif($fix=='%like')
-			$where .= " $atau`$medan` like '%$cariApa'\r";	
+			$dimana .= " $atau`$medan` like '%$cariApa' $akhir\r";	
 		elseif($fix=='x%like')
-			$where .= " $atau`$medan` not like '%$cariApa'\r";	
+			$dimana .= " $atau`$medan` not like '%$cariApa' $akhir\r";	
+		elseif($fix=='in')
+			$dimana .= " $atau`$medan` in $cariApa $akhir\r";				
 		elseif($fix=='xin')
-			$where .= " $atau`$medan` not in $cariApa\r";				
-		elseif($fix=='khas')
-			$where .= " $atau`$medan` not like $cariApa\r";	
+			$dimana .= " $atau`$medan` not in $cariApa $akhir\r";				
 		elseif($fix=='khas2')
-			$where .= " $atau`$medan` REGEXP CONCAT('(^| )','',$cariApa)\r";	
+			$dimana .= " $atau`$medan` REGEXP CONCAT('(^| )','',$cariApa) $akhir\r";	
 		elseif($fix=='xkhas2')
-			$where .= " $atau`$medan` NOT REGEXP CONCAT('(^| )','',$cariApa)\r";	
+			$dimana .= " $atau`$medan` NOT REGEXP CONCAT('(^| )','',$cariApa) $akhir\r";	
 		elseif($fix=='khas3')
-			$where .= " $atau`$medan` REGEXP CONCAT('[[:<:]]',$cariApa,'[[:>:]]')\r";	
-		elseif($fix=='xkhas3')
-			$where .= " $atau`$medan` NOT REGEXP CONCAT('[[:<:]]',$cariApa,'[[:>:]]')\r";	
+			$dimana .= " $atau`$medan` REGEXP CONCAT('[[:<:]]',$cariApa,'[[:>:]]') $akhir\r";	
+		elseif($fix=='xkhas4')
+			$dimana .= " $atau`$medan` NOT REGEXP CONCAT('[[:<:]]',$cariApa,'[[:>:]]') $akhir\r";	
+		elseif($fix=='z1')
+			$dimana .= " $atau$medan = $cariApa $akhir\r";
+		elseif($fix=='z2')
+			$dimana .= " $atau$medan like '$cariApa' $akhir\r";
+		elseif($fix=='z2x')
+			$dimana .= " $atau$medan not like '$cariApa' $akhir\r";
+		elseif($fix=='z3x')
+			$dimana .= " $atau$medan IS NOT NULL $akhir\r";
+		elseif($fix=='zin')
+			$dimana .= " $atau$medan in $cariApa $akhir\r";
+		elseif($fix=='zxin')
+			$dimana .= " $atau$medan not in $cariApa $akhir\r";	
+		return $dimana;
 	}
 	
 	private function dimana($carian)
@@ -67,8 +87,9 @@ class Paparan_Tanya extends Tanya
 				  $medan = isset($carian[$key]['medan']) ? $carian[$key]['medan']      : null;
 				    $fix = isset($carian[$key]['fix'])   ? $carian[$key]['fix']        : null;			
 				$cariApa = isset($carian[$key]['apa'])   ? $carian[$key]['apa']        : null;
+				  $akhir = isset($carian[$key]['akhir']) ? $carian[$key]['akhir']      : null;
 				//echo "\r$key => ($fix) $atau $medan = '$apa'  ";
-				$this->jika($atau, $medan, $fix, $cariApa);
+				$where .= $this->jika($atau, $medan, $fix, $cariApa, $akhir);
 			}
 		endif;
 	
@@ -78,32 +99,45 @@ class Paparan_Tanya extends Tanya
 	
 	private function dibawah($carian)
 	{
-		$susun = null;
+		$susunan = null;
 		if($carian==null || empty($carian) ):
-			$susun .= null;
+			$susunan .= null;
 		else:
 			foreach ($carian as $key=>$cari)
 			{
-				$kumpul = isset($carian['kumpul'])? $carian['kumpul'] : null;
-				 $order = isset($carian['susun']) ? $carian['susun']  : null;
-				  $dari = isset($carian['dari'])  ? $carian['dari']   : null;			
-				   $max = isset($carian['max'])   ? $carian['max']    : null;
+				$kumpul = isset($carian[$key]['kumpul'])? $carian[$key]['kumpul'] : null;
+				 $order = isset($carian[$key]['susun']) ? $carian[$key]['susun']  : null;
+				  $dari = isset($carian[$key]['dari'])  ? $carian[$key]['dari']   : null;			
+				   $max = isset($carian[$key]['max'])   ? $carian[$key]['max']    : null;
 				
 				//echo "\$cari = $cari, \$key=$key <br>";
-				if ($kumpul!=null)  $susun = " GROUP BY concat('%',$kumpul,'%')\r";
-				elseif($order!=null)$susun = " ORDER BY $order\r";
-				elseif($dari!=null) $susun = " LIMIT $dari";	
-				elseif($max!=null)  $susun .= ",$max\r";
 			}
-		endif;
+				if ($kumpul!=null)$susunan .= " GROUP BY $kumpul\r";
+				if ($order!=null) $susunan .= " ORDER BY $order\r";
+				if ($max!=null)   $susunan .= ($dari==0) ? 
+						" LIMIT $max\r" : " LIMIT $dari,$max\r";
+		endif; 
 		
-		//echo '<pre>susun:'; print_r($carian) . '</pre><br>';
-		//echo "$kumpul $order $dari $max hahaha<hr>";
-		//echo " $order $dari,$max hahaha<hr>";
-		return $susun;
-	
+		//echo "<hr>\$kumpul:$kumpul \$order:$order \$dari:$dari \$max:$max hahaha<hr>";
+		return $susunan;
+		
 	}
-
+	
+	public function cariSemuaData($myTable, $medan, $carian, $susun)
+	{
+		$sql = 'SELECT ' . $medan . ' FROM ' . $myTable 
+			 . $this->dimana($carian)
+			 . $this->dibawah($susun);
+		
+		//echo '<pre>susun:'; print_r($susun) . '</pre><br>';
+		//echo htmlentities($sql) . '<br>';
+		//echo '<pre>';print_r($sql) . '</pre><br>';
+		$result = $this->db->selectAll($sql);
+		//echo json_encode($result);
+		
+		return $result;
+	}
+	
 	public function paparMedan($myTable, $papar = null)
 	{
 		$cari = ( !isset($papar) ) ? '' : ' WHERE  ' . $papar . ' ';
@@ -114,12 +148,11 @@ class Paparan_Tanya extends Tanya
 		return $this->db->selectAll($sql);
 	}
 
-	public function kiraKes($myTable, $medan, $fe)
+	public function kiraKes($myTable, $medan, $carian)
 	{
-		$carife = ( !isset($fe) ) ? '' : ' WHERE fe = "' . $fe . '"';
 
 		$sql = 'SELECT * FROM ' . $myTable 
-			 . $carife . $this->_susun;
+			 . $this->dimana($carian);
 		
 		//echo htmlentities($sql) . '<br>';
 		$result = $this->db->rowCount($sql);
