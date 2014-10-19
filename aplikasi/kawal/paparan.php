@@ -85,7 +85,7 @@ class Paparan extends Kawal
 		
 		//$fe = ($this->level == 'kawal') ? $fe : $this->pengguna; # set nama fe
         $bulanan = bulanan('kawalan','14'); # papar bulan dlm tahun semasa
-		//$cari[] = array('fix'=>'x=','atau'=>'WHERE','medan'=>'fe','apa'=>$fe);
+		$cari[] = array('fix'=>'x=','atau'=>'WHERE','medan'=>'fe','apa'=>$fe);
 		//$cari[] = array('fix'=>'khas','atau'=>'AND','medan'=>'daerah','apa'=>'dp_baru');
 
         # semak pembolehubah $bulanan
@@ -103,14 +103,17 @@ class Paparan extends Kawal
 			// setkan $medan
 			$medan = ($myTable=='rangka14') ? $medanRangka : $medanData;
             // dapatkan bilangan jumlah rekod
-            $bilSemua = $this->tanya->kiraKes($sv . $myTable, $medan, $fe);
+            $bilSemua = $this->tanya->kiraKes($sv . $myTable, $medan, $cari);
             // tentukan bilangan mukasurat & bilangan jumlah rekod
 			//echo '$bilSemua:'.$bilSemua.', $item:'.$item.', $ms:'.$ms.'<br>';
-            $jum = pencamSqlLimit($bilSemua, $item, $ms, 'utama,msic,nama', null);
+            $jum = pencamSqlLimit($bilSemua, $item, $ms);
+			$kumpul = array('kumpul'=>null, 'susun'=>'utama,msic,nama');
+			$susun[] = array_merge($jum, $kumpul);
+
             $this->papar->bilSemua[$myTable] = $bilSemua;
             # sql guna limit
             $this->papar->cariApa[$myTable] = $this->tanya->
-				$kesRespon($sv . $myTable, $medan, $fe, $jum);
+				$kesRespon($sv . $myTable, $medan, $cari, $jum);
             # halaman
             $this->papar->halaman[$myTable] = halaman($jum);
         }# tamat ulang table
@@ -311,17 +314,19 @@ class Paparan extends Kawal
     }
 
     public function banding($item = 30, $ms = 1, $tahun = 14, $lepas = 'jan', $kini = 'feb') 
-    {    
+    {
+		# setkan array untuk bulan
+			$namaBln = bulanan('nama_bulan', $tahun);
         # setkan pembolehubah untuk $this->tanya
 			$paparTable = "$lepas-$kini";
-			$jadual = "mdt_$lepas$tahun b8, mdt_$kini$tahun b9, mdt_rangka$tahun c";
-            $medan = 'b9.newss,b9.nama,b9.sebab,c.respon, b9.utama,b9.msic,'
-				   . 'format(b9.hasil,0) hasil09,format(b8.hasil,0) hasil08,'
-				   . 'format( ((b9.hasil-b8.hasil)/b8.hasil) , 2) as kira'
+			$jadual = "mdt_$lepas$tahun dulu, mdt_$kini$tahun kini, mdt_rangka$tahun c";
+            $medan = 'kini.newss,kini.nama,kini.sebab,c.respon, kini.utama,kini.msic,'
+				   . 'format(kini.hasil,0) hasilKini,format(dulu.hasil,0) hasilDulu,'
+				   . 'format( ((kini.hasil-dulu.hasil)/dulu.hasil) , 2) as kira'
 				   . "\r";
-			$carian[] = array('fix'=>'z1','atau'=>'WHERE','medan'=>'b9.newss','apa'=>'b8.newss','akhir'=>null);
-			$carian[] = array('fix'=>'z1','atau'=>'AND','medan'=>'b9.newss','apa'=>'c.newss','akhir'=>null);
-			$carian[] = array('fix'=>'z2','atau'=>'AND','medan'=>'b9.fe','apa'=>"amin%",'akhir'=>null);
+			$carian[] = array('fix'=>'z1','atau'=>'WHERE','medan'=>'kini.newss','apa'=>'dulu.newss','akhir'=>null);
+			$carian[] = array('fix'=>'z1','atau'=>'AND','medan'=>'kini.newss','apa'=>'c.newss','akhir'=>null);
+			$carian[] = array('fix'=>'z2','atau'=>'AND','medan'=>'kini.fe','apa'=>"amin%",'akhir'=>null);
 			$groupBy = null;
 			$orderBy = 'utama,msic';
 
@@ -331,10 +336,11 @@ class Paparan extends Kawal
 			//echo "\$bilSemua:$bilSemua, \$item:$item, \$ms:$ms<br>";
             $jum = pencamSqlLimit($bilSemua, $item, $ms);
 			$kumpul = array('kumpul'=>$groupBy, 'susun'=>$orderBy);
-			$susun[] = array_merge($jum, $kumpul );
+			$susun[] = array_merge($jum, $kumpul);
 			$this->papar->bilSemua[$paparTable] = $bilSemua;
         
 		# sql guna limit
+			for ($kira = 0; $kira < 9; $kira++) {  $this->papar->cariApa[$namaBln[$kira]] = null; }
             $this->papar->cariApa[$paparTable] = $this->tanya->
 				cariSemuaData($jadual, $medan, $carian, $susun);
 
