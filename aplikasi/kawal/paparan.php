@@ -100,11 +100,11 @@ class Paparan extends Kawal
         # mula papar semua dalam $myTable
         foreach ($bulanan as $key => $myTable)
         {# mula ulang table
-			// setkan $medan
+			# setkan $medan
 			$medan = ($myTable=='rangka14') ? $medanRangka : $medanData;
-            // dapatkan bilangan jumlah rekod
+            # dapatkan bilangan jumlah rekod
             $bilSemua = $this->tanya->kiraKes($sv . $myTable, $medan, $cari);
-            // tentukan bilangan mukasurat & bilangan jumlah rekod
+            # tentukan bilangan mukasurat & bilangan jumlah rekod
 			//echo '$bilSemua:'.$bilSemua.', $item:'.$item.', $ms:'.$ms.'<br>';
             $jum = pencamSqlLimit($bilSemua, $item, $ms);
 			$kumpul = array('kumpul'=>null, 'susun'=>'utama,msic,nama');
@@ -124,16 +124,16 @@ class Paparan extends Kawal
         # Set pemboleubah utama
         $this->papar->pegawai = senarai_kakitangan();
         $this->papar->carian = 'semuajadual';
-        # pergi papar kandungan
+        
 		//$cetak = 'papar';
-     	// memilih antara papar dan cetak
+		# pergi papar kandungan | memilih antara papar dan cetak
 		if ($cetak == 'cetak') //echo 'cetak';
 			$this->papar->baca('kawalan/cetak', 0);
 		elseif ($cetak == 'papar') //echo 'papar';
 			$this->papar->baca('kawalan/index', 1);
 		else //echo 'ubah';
 			$this->papar->baca('kawalan/index', 0);
-		//*/
+		#*/
     }
 
     public function utama($item = 30, $ms = 1, $utama = null, $fe = null, $respon = null) 
