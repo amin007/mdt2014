@@ -280,22 +280,25 @@ class Paparan extends Kawal
 			$carian[] = array('fix'=>'%like%','atau'=>'AND','medan'=>'borang','apa'=>$borang);
 			$carian[] = array('fix'=>'xin','atau'=>'AND','medan'=>'batchAwal','apa'=>"('amin007','mdt-amin007')");
 
-		# mula papar semua dalam $myTable
-        foreach ($this->jadualKawal as $key => $myTable)
-        {# mula ulang table
-			# setkan $medan = ($myTable=='') ? $medanRangka : $medanData;
-            # dapatkan bilangan jumlah rekod
-            $bilSemua = $this->tanya->kiraKes($myTable, $medan, $carian);
+		# setkan pembolehubah untuk $this->tanya sql2
+			//$paparTable = "kawalan/alamat/$item/$ms/$cariBatch/$daerah";
+			$paparTable = "$cariBatch-$daerah";
+			$jadual = $this->jadualKawal[0];
+			$jadualMedan2 = '`dp_baru`, count(*)as jum';
+			$groupBy2 = 'dp_baru';
+			$orderBy2 = 'dp_baru';
+			$cari2[] = array('fix'=>'like','atau'=>'WHERE','medan'=>'batchAwal','apa'=>$cariBatch);
+			//$cari2[] = array('fix'=>'like','atau'=>'AND','medan'=>'dp_baru','apa'=>$daerah);
+			//$cari2[] = array('fix'=>'khas','atau'=>'AND','medan'=>'daerah','apa'=>'dp_baru');
+        # mula cari jadual khas
+			$bilSemua = $this->tanya->kiraKes($jadual, $jadualMedan2, $cari2);
             # tentukan bilangan mukasurat & bilangan jumlah rekod
-			//echo "\$bilSemua:$bilSemua, \$item:$item, \$ms:$ms<br>';
-            $jum = pencamSqlLimit($bilSemua, $item, $ms, ' nota,nama ASC');
-            $this->papar->bilSemua[$myTable] = $bilSemua;
+			 //echo "\$bilSemua:$bilSemua, \$item:$item, \$ms:$ms<br>';
+            $jum2 = pencamSqlLimit($bilSemua, $item, $ms, $orderBy2, $groupBy2);
+            $this->papar->bilSemua[$paparTable] = $bilSemua;
             # sql guna limit
-            $this->papar->cariApa[$myTable] = $this->tanya->
-				cariAlamat($myTable, $medan, $carian, $jum);
-			# halaman
-            $this->papar->halaman[$myTable] = halaman($jum);
-        }# tamat ulang table
+            $this->papar->cariApa[$paparTable] = $this->tanya->
+				cariAlamat($jadual, $jadualMedan2, $cari2, $jum2);
         
         # semak pembolehubah $this->papar->cariApa
 		//echo '<pre>$this->papar->cariApa:', print_r($this->papar->cariApa, 1) . '</pre><br>';
@@ -306,6 +309,44 @@ class Paparan extends Kawal
         # pergi papar kandungan
         $this->papar->baca('kawalan/index', 0);
     }
-	
-	
+
+    public function banding($item = 30, $ms = 1, $tahun = 14, $lepas = 'jan', $kini = 'feb') 
+    {    
+        # setkan pembolehubah untuk $this->tanya
+			$paparTable = "$lepas-$kini";
+			$jadual = "mdt_$lepas$tahun b8, mdt_$kini$tahun b9, mdt_rangka$tahun c";
+            $medan = 'b9.newss,b9.nama,b9.sebab,c.respon, b9.utama,b9.msic,'
+				   . 'format(b9.hasil,0) hasil09,format(b8.hasil,0) hasil08,'
+				   . 'format( ((b9.hasil-b8.hasil)/b8.hasil) , 2) as kira'
+				   . "\r";
+			$carian[] = array('fix'=>'z1','atau'=>'WHERE','medan'=>'b9.newss','apa'=>'b8.newss','akhir'=>null);
+			$carian[] = array('fix'=>'z1','atau'=>'AND','medan'=>'b9.newss','apa'=>'c.newss','akhir'=>null);
+			$carian[] = array('fix'=>'z2','atau'=>'AND','medan'=>'b9.fe','apa'=>"amin%",'akhir'=>null);
+			$groupBy = null;
+			$orderBy = 'utama,msic';
+
+		# mula papar semua dalam $myTable      			
+			$bilSemua = $this->tanya->kiraKes($jadual, $medan, $carian);
+            # tentukan bilangan mukasurat & bilangan jumlah rekod
+			//echo "\$bilSemua:$bilSemua, \$item:$item, \$ms:$ms<br>";
+            $jum = pencamSqlLimit($bilSemua, $item, $ms);
+			$kumpul = array('kumpul'=>$groupBy, 'susun'=>$orderBy);
+			$susun[] = array_merge($jum, $kumpul );
+			$this->papar->bilSemua[$paparTable] = $bilSemua;
+        
+		# sql guna limit
+            $this->papar->cariApa[$paparTable] = $this->tanya->
+				cariSemuaData($jadual, $medan, $carian, $susun);
+
+        # semak pembolehubah $this->papar->cariApa
+		//echo '<pre>$this->papar->cariApa:', print_r($this->papar->cariApa, 1) . '</pre><br>';
+		
+        # Set pemboleubah utama
+        $this->papar->pegawai = senarai_kakitangan();
+        $this->papar->carian = 'banding';
+        $this->papar->halaman['jan14'] = null;
+        # pergi papar kandungan
+        $this->papar->baca('kawalan/index', 0);
+    }	
+
 }
