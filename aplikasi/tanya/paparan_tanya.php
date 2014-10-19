@@ -115,7 +115,7 @@ class Paparan_Tanya extends Tanya
 				if ($kumpul!=null)$susunan .= " GROUP BY $kumpul\r";
 				if ($order!=null) $susunan .= " ORDER BY $order\r";
 				if ($max!=null)   $susunan .= ($dari==0) ? 
-						" LIMIT $max\r" : " LIMIT $dari,$max\r";
+					" LIMIT $max\r" : " LIMIT $dari,$max\r";
 		endif; 
 		
 		//echo "<hr>\$kumpul:$kumpul \$order:$order \$dari:$dari \$max:$max hahaha<hr>";
@@ -167,19 +167,6 @@ class Paparan_Tanya extends Tanya
 		$sql = 'SELECT ' . $medan . ' FROM ' . $myTable . ' b ' 
 			 . $this->cari($fe) . $this->_susun;
 		
-		//echo htmlentities($sql) . '<br>';
-		$result = $this->db->selectAll($sql);
-		//echo json_encode($result);
-		
-		return $result;
-	}
-
-	public function kesSemua($myTable, $medan, $fe, $jum)
-	{
-		$sql = 'SELECT ' . $medan . ' FROM ' . $myTable . ' as b ' 
-			 . $this->cari($fe) . $this->_susun 
-			 . ' LIMIT ' . $jum['dari'] . ', ' . $jum['max'];
-
 		//echo htmlentities($sql) . '<br>';
 		$result = $this->db->selectAll($sql);
 		//echo json_encode($result);
