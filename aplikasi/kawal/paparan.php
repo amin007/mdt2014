@@ -37,13 +37,13 @@ class Paparan extends Kawal
 			. 'email,nota,msic08';
 			//. 'newss,msic,nama,utama,fe,terima,'
 			//. 'hasil,dptLain,web,stok,staf,gaji,outlet,sebab';
-		$this->medanData = 'newss,utama,msic,nama,fe,'
+		$this->medanData = 'newss,nama,utama,substring(msic,1,5) m6,fe,'
 			. 'concat_ws("|","<input type=\"checkbox\">",'
 			. 'concat("hasil=",(hasil + IFNULL(dptLain,0)) ),' // hasil
 			. 'concat("staf=",(staf) ),' // staf
 			. 'concat("gaji=",(gaji) )' // gaji
 			. ' )as `5p`,terima,'
-			//. ' format( (hasil + IFNULL(dptLain,0) ), 0 ) as dapat,'
+			. ' format( (hasil + IFNULL(dptLain,0) ), 0 ) as dapat,'
 			//. '(hasil+COALESCE(dptLain,0)) as dapat2,'
 			. 'format(hasil,0) as hasil,format(dptlain,0) as dptlain,' . "\r"
 			. 'format(stok,0) as stok,staf,format(gaji,0) as gaji,' . "\r"
@@ -73,7 +73,7 @@ class Paparan extends Kawal
 		# set $jenisRespon
 		switch ($respon) 
 		{
-			case "semua" 	: $kesRespon = 'kesSemua'; break;
+			case "semua" 	: $kesRespon = 'cariSemuaData'; break;
 			case "selesai" 	: $kesRespon = 'kesSelesai'; break;
 			case "janji" 	: $kesRespon = 'kesJanji'; break;
 			case "belum" 	: $kesRespon = 'kesBelum'; break;
@@ -107,20 +107,19 @@ class Paparan extends Kawal
             # tentukan bilangan mukasurat & bilangan jumlah rekod
 			//echo '$bilSemua:'.$bilSemua.', $item:'.$item.', $ms:'.$ms.'<br>';
             $jum = pencamSqlLimit($bilSemua, $item, $ms);
-			$kumpul = array('kumpul'=>null, 'susun'=>'utama,msic,nama');
+			$kumpul = array('kumpul'=>null, 'susun'=>'utama,substring(msic,1,3) ASC,nama');
 			$susun[] = array_merge($jum, $kumpul);
-
             $this->papar->bilSemua[$myTable] = $bilSemua;
             # sql guna limit
             $this->papar->cariApa[$myTable] = $this->tanya->
-				$kesRespon($sv . $myTable, $medan, $cari, $jum);
+				$kesRespon($sv . $myTable, $medan, $cari, $susun);
             # halaman
             $this->papar->halaman[$myTable] = halaman($jum);
         }# tamat ulang table
         
         # semak pembolehubah $this->papar->cariApa
         //echo '<pre>', print_r($this->papar->cariApa, 1) . '</pre><br>';
-		
+
         # Set pemboleubah utama
         $this->papar->pegawai = senarai_kakitangan();
         $this->papar->carian = 'semuajadual';
