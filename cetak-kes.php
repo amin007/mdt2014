@@ -386,7 +386,6 @@ for ($i=12;$i > 0; $i--)
   <td class=xl1531858></td>
   <td class=xl6731858></td>
   <td class=xl14231858></td>
-  
   <!-- mula bulan 
   <td class=xl6731858>7</td>
   <td class=xl14331858 style='border-top:none'>&nbsp;</td>
@@ -403,8 +402,13 @@ for ($i=12;$i > 0; $i--)
   <td colspan=5 class="xl19431858" width="60" style="border-right:.5pt solid black;
   width:64pt" valign="center"><?=$bln?></td>
   <td colspan=5 class="xl19431858" width="60" style="border-right:.5pt solid black;
-  border-left:none;width:45pt"><?php echo date("Y") ?></td>
-  
+  border-left:none;width:45pt"><?php 
+	//$time = new DateTime('now');
+	//$newtime = $time->modify('-1 year')->format('Y');
+	//echo ($bln==12) ? $newtime : date("Y");
+	//$year = mktime(0, 0, 0, date("m"),   date("d"),   date("Y")+1)
+	echo date("Y", strtotime("-1 year")), "\n";
+?></td>
  </tr>
  <tr height=20 style='mso-height-source:userset;height:15.0pt'>
   <td height=20 class=xl6731858 style='height:15.0pt'></td>
